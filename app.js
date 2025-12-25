@@ -5,13 +5,14 @@
 class VHSTraderGame {
     constructor() {
         // Game state
-        this.balance = 500;
+        this.balance = 0;
         this.day = 1;
         this.soldUnique = new Set();
         this.soldTotal = 0;
         this.shelf = []; // 10 slots
         this.ownedFilms = new Set(); // films we own (on shelf or in inventory)
         this.inventory = []; // extra films not on shelf
+        this.shopFilmOrder = []; // randomized order of films in shop
 
         // Day state
         this.currentCustomerIndex = 0;
@@ -24,6 +25,9 @@ class VHSTraderGame {
         // Win conditions
         this.UNIQUE_WIN = 50;
         this.TOTAL_WIN = 100;
+
+        // Storage key
+        this.STORAGE_KEY = 'vhs_trader_save';
 
         // DOM elements
         this.initializeDOM();
@@ -51,6 +55,7 @@ class VHSTraderGame {
         this.btnStartDay = document.getElementById('btn-start-day');
         this.btnSkipCustomer = document.getElementById('btn-skip-customer');
         this.btnEndDay = document.getElementById('btn-end-day');
+        this.btnNewGame = document.getElementById('btn-new-game');
 
         // Modals
         this.filmModal = document.getElementById('film-modal');
@@ -84,6 +89,7 @@ class VHSTraderGame {
         this.btnStartDay.addEventListener('click', () => this.startDay());
         this.btnSkipCustomer.addEventListener('click', () => this.nextCustomer());
         this.btnEndDay.addEventListener('click', () => this.endDay());
+        this.btnNewGame.addEventListener('click', () => this.confirmNewGame());
 
         this.btnOffer.addEventListener('click', () => this.offerFilm());
         this.btnCloseModal.addEventListener('click', () => this.closeFilmModal());
@@ -96,11 +102,21 @@ class VHSTraderGame {
     }
 
     initializeGame() {
-        // Fill initial shelf with 10 random films
-        const shuffled = [...FILMS].sort(() => Math.random() - 0.5);
-        for (let i = 0; i < 10; i++) {
-            this.shelf.push(shuffled[i]);
-            this.ownedFilms.add(shuffled[i].id);
+        // Try to load saved progress
+        if (this.loadProgress()) {
+            // Progress loaded successfully
+            this.customerRequestEl.textContent = `День ${this.day}. Нажмите "Начать день" чтобы открыть магазин.`;
+        } else {
+            // No saved progress - start fresh
+            // Generate random shop order for this playthrough
+            this.shopFilmOrder = [...FILMS].sort(() => Math.random() - 0.5).map(f => f.id);
+
+            // Fill initial shelf with first 10 films from shuffled order
+            for (let i = 0; i < 10; i++) {
+                const film = FILMS.find(f => f.id === this.shopFilmOrder[i]);
+                this.shelf.push(film);
+                this.ownedFilms.add(film.id);
+            }
         }
 
         this.populateGenreFilter();
@@ -311,6 +327,8 @@ class VHSTraderGame {
             this.shelf[slotIndex] = null;
             this.ownedFilms.delete(film.id);
             this.renderShelf();
+            // Save progress after sale
+            this.saveProgress();
         }, 200);
 
         this.customerRequestEl.textContent = `"Отлично! Именно то, что я искал! Держите ${salePrice}₽"`;
@@ -377,8 +395,10 @@ class VHSTraderGame {
         const genreFilter = this.filterGenre.value;
         const priceFilter = this.filterPrice.value;
 
-        // 1. Filter films
-        let films = FILMS.filter(film => !this.ownedFilms.has(film.id));
+        // 1. Get films in randomized order, filter out owned
+        let films = this.shopFilmOrder
+            .map(id => FILMS.find(f => f.id === id))
+            .filter(film => film && !this.ownedFilms.has(film.id));
 
         // Apply genre filter
         if (genreFilter) {
@@ -478,6 +498,8 @@ class VHSTraderGame {
         this.customerRequestEl.textContent = `День ${this.day}. Нажмите "Начать день" чтобы открыть магазин.`;
 
         this.updateStats();
+        // Save progress when new day starts
+        this.saveProgress();
     }
 
     // ==========================================
@@ -501,15 +523,25 @@ class VHSTraderGame {
         this.victoryModal.classList.remove('hidden');
     }
 
+    confirmNewGame() {
+        if (confirm('Вы уверены? Весь прогресс будет потерян!')) {
+            this.restartGame();
+        }
+    }
+
     restartGame() {
+        // Clear saved progress
+        this.clearProgress();
+
         // Reset all state
-        this.balance = 500;
+        this.balance = 0;
         this.day = 1;
         this.soldUnique = new Set();
         this.soldTotal = 0;
         this.shelf = [];
         this.ownedFilms = new Set();
         this.inventory = [];
+        this.shopFilmOrder = [];
         this.currentCustomerIndex = 0;
         this.todayCustomers = [];
         this.currentRequest = null;
@@ -517,11 +549,12 @@ class VHSTraderGame {
         this.isDay = false;
         this.isEvening = false;
 
-        // Reinitialize
-        const shuffled = [...FILMS].sort(() => Math.random() - 0.5);
+        // Reinitialize with new random shop order
+        this.shopFilmOrder = [...FILMS].sort(() => Math.random() - 0.5).map(f => f.id);
         for (let i = 0; i < 10; i++) {
-            this.shelf.push(shuffled[i]);
-            this.ownedFilms.add(shuffled[i].id);
+            const film = FILMS.find(f => f.id === this.shopFilmOrder[i]);
+            this.shelf.push(film);
+            this.ownedFilms.add(film.id);
         }
 
         // Hide modals
@@ -541,6 +574,72 @@ class VHSTraderGame {
 
         this.renderShelf();
         this.updateStats();
+    }
+
+    // ==========================================
+    // SAVE/LOAD PROGRESS
+    // ==========================================
+
+    saveProgress() {
+        const saveData = {
+            balance: this.balance,
+            day: this.day,
+            soldTotal: this.soldTotal,
+            soldUnique: [...this.soldUnique],
+            shelf: this.shelf.map(film => film ? film.id : null),
+            ownedFilms: [...this.ownedFilms],
+            shopFilmOrder: this.shopFilmOrder
+        };
+
+        try {
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(saveData));
+        } catch (e) {
+            console.warn('Could not save progress:', e);
+        }
+    }
+
+    loadProgress() {
+        try {
+            const saved = localStorage.getItem(this.STORAGE_KEY);
+            if (!saved) return false;
+
+            const saveData = JSON.parse(saved);
+
+            // Restore state
+            this.balance = saveData.balance;
+            this.day = saveData.day;
+            this.soldTotal = saveData.soldTotal;
+            this.soldUnique = new Set(saveData.soldUnique);
+            this.ownedFilms = new Set(saveData.ownedFilms);
+            this.shopFilmOrder = saveData.shopFilmOrder || [];
+
+            // Restore shelf from film IDs
+            this.shelf = saveData.shelf.map(filmId => {
+                if (filmId === null) return null;
+                return FILMS.find(f => f.id === filmId) || null;
+            });
+
+            return true;
+        } catch (e) {
+            console.warn('Could not load progress:', e);
+            return false;
+        }
+    }
+
+    clearProgress() {
+        try {
+            localStorage.removeItem(this.STORAGE_KEY);
+        } catch (e) {
+            console.warn('Could not clear progress:', e);
+        }
+    }
+
+    hasSavedProgress() {
+        try {
+            return localStorage.getItem(this.STORAGE_KEY) !== null;
+        } catch (e) {
+            return false;
+        }
     }
 }
 
