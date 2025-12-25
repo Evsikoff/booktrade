@@ -222,12 +222,10 @@ body {
 }
 
 .vhs-case {
-    flex: 1;
     width: 100%;
     position: relative;
     display: flex;
     flex-direction: column;
-    min-height: 0;
     background: linear-gradient(135deg, #2a2a3a 0%, #1a1a25 50%, #0a0a10 100%);
     border-radius: 4px;
     padding: 4px;
@@ -254,12 +252,10 @@ body {
 }
 
 .cover-wrapper {
-    flex: 1;
-    width: 100%;
+    width: calc(100% - 4px);
     position: relative;
     overflow: hidden;
     border-radius: 3px;
-    min-height: 0;
     margin-left: 4px;
     border: 2px solid #1a1a25;
     box-shadow:
@@ -536,6 +532,7 @@ body {
 }
 
 .shop-cover-wrapper {
+    width: calc(100% - 10px);
     margin-left: 10px;
     position: relative;
     border: 2px solid #1a1a25;
