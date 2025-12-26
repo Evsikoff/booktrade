@@ -1289,20 +1289,6 @@ const FILMS = [
     "coverUrl": "covers/92.jpg"
   },
   {
-    "id": 93,
-    "titleRu": "Халк",
-    "titleOriginal": "Hulk",
-    "year": 2003,
-    "genres": [
-      "супергерои",
-      "боевик",
-      "научная фантастика"
-    ],
-    "price": 200,
-    "description": "Учёный превращается в зелёного гиганта от ярости.",
-    "coverUrl": "covers/93.jpg"
-  },
-  {
     "id": 94,
     "titleRu": "Каратель",
     "titleOriginal": "The Punisher",
