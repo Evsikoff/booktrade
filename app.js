@@ -1,8 +1,8 @@
 // ==========================================
-// VHS Tape Trader - Main Game Logic
+// Book Trader - Main Game Logic
 // ==========================================
 
-class VHSTraderGame {
+class BookTraderGame {
     constructor() {
         // Game state
         this.balance = 0;
@@ -10,9 +10,8 @@ class VHSTraderGame {
         this.soldUnique = new Set();
         this.soldTotal = 0;
         this.shelf = []; // 10 slots
-        this.ownedFilms = new Set(); // films we own (on shelf or in inventory)
-        this.inventory = []; // extra films not on shelf
-        this.shopFilmOrder = []; // randomized order of films in shop
+        this.ownedBooks = new Set(); // books we own
+        this.shopBookOrder = []; // randomized order of books in shop
 
         // Day state
         this.currentCustomerIndex = 0;
@@ -24,10 +23,10 @@ class VHSTraderGame {
 
         // Win conditions
         this.UNIQUE_WIN = 50;
-        this.TOTAL_WIN = 100;
+        this.TOTAL_WIN = 200;
 
         // Storage key
-        this.STORAGE_KEY = 'vhs_trader_save';
+        this.STORAGE_KEY = 'book_trader_save_v1';
 
         // Yandex SDK
         this.ysdk = null;
@@ -43,13 +42,12 @@ class VHSTraderGame {
         this.loadingReadyReported = false;
 
         this.isShowingAd = false;
-
         this.initialGameplaySessionStarted = false;
 
         // DOM elements
         this.initializeDOM();
         this.bindEvents();
-        this.preventTextSelectionAndContextMenu();
+        // this.preventTextSelectionAndContextMenu(); // Optional for library vibe
         this.initializeGame().catch((e) => console.error('Ошибка инициализации игры', e));
     }
 
@@ -76,14 +74,14 @@ class VHSTraderGame {
         this.btnNewGame = document.getElementById('btn-new-game');
 
         // Modals
-        this.filmModal = document.getElementById('film-modal');
+        this.bookModal = document.getElementById('film-modal'); // Keep ID or change in HTML. Kept 'film-modal' in HTML for now
         this.shopModal = document.getElementById('shop-modal');
         this.victoryModal = document.getElementById('victory-modal');
 
-        // Film modal
+        // Book modal
         this.modalCover = document.getElementById('modal-cover');
         this.modalTitleRu = document.getElementById('modal-title-ru');
-        this.modalTitleOrig = document.getElementById('modal-title-orig');
+        this.modalAuthor = document.getElementById('modal-author');
         this.modalDescription = document.getElementById('modal-description');
         this.modalGenres = document.getElementById('modal-genres');
         this.modalPrice = document.getElementById('modal-price');
@@ -113,8 +111,8 @@ class VHSTraderGame {
         this.btnEndDay.addEventListener('click', () => this.endDay());
         this.btnNewGame.addEventListener('click', () => this.confirmNewGame());
 
-        this.btnOffer.addEventListener('click', () => this.offerFilm());
-        this.btnCloseModal.addEventListener('click', () => this.closeFilmModal());
+        this.btnOffer.addEventListener('click', () => this.offerBook());
+        this.btnCloseModal.addEventListener('click', () => this.closeBookModal());
 
         this.btnCloseShop.addEventListener('click', () => this.handleFinishPurchase());
         this.filterGenre.addEventListener('change', () => this.renderShopCatalog());
@@ -128,13 +126,13 @@ class VHSTraderGame {
     }
 
     async initializeGame() {
-        this.showLoadingScreen('Подключение к сервисам Яндекса');
+        this.showLoadingScreen('Подключение к книжной сети');
         await this.initYandexSDK();
 
-        this.updateLoadingStatus('Загружаем прогресс игрока');
+        this.updateLoadingStatus('Распаковка книг');
         const progressLoaded = await this.loadProgress();
         if (progressLoaded) {
-            this.customerRequestEl.textContent = `День ${this.day}. Нажмите "Начать день" чтобы открыть магазин.`;
+            this.customerRequestEl.textContent = `День ${this.day}. Нажмите "Начать день" чтобы открыть лавку.`;
         } else {
             this.prepareNewRun();
         }
@@ -143,8 +141,8 @@ class VHSTraderGame {
         this.renderShelf();
         this.updateStats();
 
-        this.updateLoadingStatus('Магазин готовится к открытию');
-        await this.finishLoadingScreen('Магазин готов к работе');
+        this.updateLoadingStatus('Библиотека открывается');
+        await this.finishLoadingScreen('Добро пожаловать');
     }
 
     showLoadingScreen(statusText = '') {
@@ -195,7 +193,6 @@ class VHSTraderGame {
 
     startInitialGameplaySession() {
         if (this.initialGameplaySessionStarted) return;
-
         this.initialGameplaySessionStarted = true;
         this.startGameplaySession();
     }
@@ -217,7 +214,9 @@ class VHSTraderGame {
     }
 
     async initYandexSDK() {
-        if (this.ysdk || typeof YaGames === 'undefined') {
+        if (typeof YaGames === 'undefined') {
+            console.warn('Yandex SDK не найден. Запускаем в оффлайн-режиме (Mock).');
+            this.createMockSDK();
             return;
         }
 
@@ -235,8 +234,48 @@ class VHSTraderGame {
 
             await this.setupPlayer();
         } catch (e) {
-            console.warn('Не удалось инициализировать Yandex SDK', e);
+            console.warn('Не удалось инициализировать Yandex SDK, переходим в оффлайн-режим', e);
+            this.createMockSDK();
         }
+    }
+
+    createMockSDK() {
+        this.ysdk = {
+            features: {
+                LoadingAPI: {
+                    ready: () => console.log('[MOCK] LoadingAPI.ready() called')
+                },
+                GameplayAPI: {
+                    start: () => console.log('[MOCK] GameplayAPI.start() called'),
+                    stop: () => console.log('[MOCK] GameplayAPI.stop() called')
+                }
+            },
+            adv: {
+                showFullscreenAdv: async ({ callbacks }) => {
+                    console.log('[MOCK] showFullscreenAdv called');
+                    if (callbacks.onOpen) callbacks.onOpen();
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    if (callbacks.onClose) callbacks.onClose(true);
+                }
+            },
+            getPlayer: async () => this.player
+        };
+
+        // Mock player with local storage fallback
+        this.player = {
+            getData: async () => {
+                console.log('[MOCK] player.getData called');
+                const raw = localStorage.getItem(this.STORAGE_KEY);
+                return raw ? JSON.parse(raw) : {};
+            },
+            setData: async (data) => {
+                console.log('[MOCK] player.setData called', data);
+                localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+            }
+        };
+
+        this.canReadCloudSaves = true;
+        this.canWriteCloudSaves = true;
     }
 
     async setupPlayer() {
@@ -250,6 +289,9 @@ class VHSTraderGame {
                 this.player = await this.ysdk.getPlayer({ scopes: false });
             } catch (secondaryError) {
                 console.warn('Не удалось получить данные игрока', secondaryError);
+                // Fallback to mock player if YSDK exists but getPlayer fails
+                this.createMockSDK();
+                return;
             }
         }
 
@@ -258,23 +300,35 @@ class VHSTraderGame {
     }
 
     prepareNewRun() {
-        this.shopFilmOrder = [...FILMS].sort(() => Math.random() - 0.5).map(f => f.id);
+        // Use BOOKS instead of FILMS
+        const allBooks = typeof BOOKS !== 'undefined' ? BOOKS : [];
+        this.shopBookOrder = [...allBooks].sort(() => Math.random() - 0.5).map(b => b.id);
         this.shelf = [];
-        this.ownedFilms = new Set();
+        this.ownedBooks = new Set();
+        this.balance = 500; // Starting capital
 
+        // Initial stock: 10 ramdom books from the shop order
         for (let i = 0; i < 10; i++) {
-            const film = FILMS.find(f => f.id === this.shopFilmOrder[i]);
-            this.shelf.push(film);
-            this.ownedFilms.add(film.id);
+            const bookId = this.shopBookOrder[i];
+            const book = allBooks.find(b => b.id === bookId);
+            if (book) {
+                this.shelf.push(book);
+                this.ownedBooks.add(book.id);
+            } else {
+                this.shelf.push(null);
+            }
         }
 
-        this.customerRequestEl.textContent = 'Нажмите "Начать день" чтобы открыть магазин';
+        this.customerRequestEl.textContent = 'Нажмите "Начать день" чтобы открыть лавку';
     }
 
     populateGenreFilter() {
+        const sortedBooks = typeof BOOKS !== 'undefined' ? BOOKS : [];
         const genres = new Set();
-        FILMS.forEach(film => {
-            film.genres.forEach(g => genres.add(g));
+        sortedBooks.forEach(book => {
+            if (book.genres) {
+                book.genres.forEach(g => genres.add(g));
+            }
         });
 
         [...genres].sort().forEach(genre => {
@@ -286,7 +340,7 @@ class VHSTraderGame {
     }
 
     updateStats() {
-        this.balanceEl.textContent = this.balance;
+        this.balanceEl.textContent = Math.floor(this.balance);
         this.soldUniqueEl.textContent = this.soldUnique.size;
         this.soldTotalEl.textContent = this.soldTotal;
         this.dayNumberEl.textContent = this.day;
@@ -301,25 +355,29 @@ class VHSTraderGame {
             slot.dataset.index = i;
 
             if (this.shelf[i]) {
-                const film = this.shelf[i];
+                const book = this.shelf[i];
+                // Selling price is purchase price * 1.5
+                const sellingPrice = Math.floor(book.price * 1.5);
+
                 slot.innerHTML = `
                     <div class="shelf-running-content">
                         <div class="vhs-case">
                             <div class="vhs-spine"></div>
                             <div class="cover-wrapper">
-                                <img src="${film.coverUrl}" alt="${film.titleRu}" onerror="this.src='https://placehold.co/200x300/2d1f3d/9d4edd?text=VHS'">
+                                <img src="${book.coverUrl}" alt="${book.titleRu}" onerror="this.src='https://placehold.co/200x300/4a3728/f9f5eb?text=Книга'">
                             </div>
                         </div>
                         <div class="slot-curtain">
-                            <div class="slot-title">${film.titleRu}</div>
-                            <div class="slot-price">${film.price * 2}₽</div>
+                            <div class="slot-title">${book.titleRu}</div>
+                            <div class="slot-title" style="font-size:10px;font-style:italic;">${book.author}</div>
+                            <div class="slot-price">${sellingPrice}₽</div>
                         </div>
                     </div>
                 `;
-                slot.addEventListener('click', () => this.openFilmModal(i));
+                slot.addEventListener('click', () => this.openBookModal(i));
             } else {
                 slot.classList.add('empty');
-                slot.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#666;font-size:24px;">📼</div>';
+                slot.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#888;font-size:24px;">⛔</div>';
             }
 
             this.shelfEl.appendChild(slot);
@@ -349,20 +407,24 @@ class VHSTraderGame {
     }
 
     generateCustomers(count) {
-        // 1. Identification of films on the shelf
-        const shelfFilmIds = this.shelf.filter(f => f !== null).map(f => f.id);
+        // 1. Identification of books on the shelf
+        const shelfBookIds = this.shelf.filter(b => b !== null).map(b => b.id);
 
         let chosenRequests = [];
         const usedRequestIndices = new Set();
 
-        // 2.1: gather up to 4 requests linked to 4 different random shelf films (unique requests)
-        const shuffledFilms = [...shelfFilmIds].sort(() => Math.random() - 0.5).slice(0, 4);
-        shuffledFilms.forEach(filmId => {
+        // 2.1: gather up to 4 requests linked to 4 different random shelf books (unique requests)
+        const shuffledBooks = [...shelfBookIds].sort(() => Math.random() - 0.5).slice(0, 4);
+
+        // Ensure REQUESTS exists
+        const allRequests = typeof REQUESTS !== 'undefined' ? REQUESTS : [];
+
+        shuffledBooks.forEach(bookId => {
             if (chosenRequests.length >= count) return;
 
-            const linked = REQUESTS
+            const linked = allRequests
                 .map((req, idx) => ({ req, idx }))
-                .filter(({ req, idx }) => req.linkedFilmIds.includes(filmId) && !usedRequestIndices.has(idx));
+                .filter(({ req, idx }) => req.linkedBookIds.includes(bookId) && !usedRequestIndices.has(idx));
 
             if (linked.length === 0) return;
 
@@ -372,7 +434,7 @@ class VHSTraderGame {
         });
 
         // 2.2: fill remaining slots with random unique requests
-        const allShuffled = [...REQUESTS].map((r, i) => ({ r, i })).sort(() => Math.random() - 0.5);
+        const allShuffled = [...allRequests].map((r, i) => ({ r, i })).sort(() => Math.random() - 0.5);
         for (let { r, i } of allShuffled) {
             if (chosenRequests.length >= count) break;
             if (usedRequestIndices.has(i)) continue;
@@ -386,7 +448,7 @@ class VHSTraderGame {
             .sort(() => Math.random() - 0.5)
             .map(request => ({
                 ...request,
-                avatar: CUSTOMER_AVATARS[Math.floor(Math.random() * CUSTOMER_AVATARS.length)]
+                avatar: typeof CUSTOMER_AVATARS !== 'undefined' ? CUSTOMER_AVATARS[Math.floor(Math.random() * CUSTOMER_AVATARS.length)] : '👤'
             }));
     }
 
@@ -415,53 +477,53 @@ class VHSTraderGame {
         this.showCustomer();
     }
 
-    openFilmModal(slotIndex) {
+    openBookModal(slotIndex) {
         if (!this.isDay || !this.shelf[slotIndex]) return;
 
         this.selectedSlot = slotIndex;
-        const film = this.shelf[slotIndex];
+        const book = this.shelf[slotIndex];
 
-        this.modalCover.src = film.coverUrl;
+        this.modalCover.src = book.coverUrl;
         this.modalCover.onerror = () => {
-            this.modalCover.src = 'https://placehold.co/150x200/2d1f3d/9d4edd?text=VHS';
+            this.modalCover.src = 'https://placehold.co/150x200/4a3728/f9f5eb?text=Ошибка';
         };
-        this.modalTitleRu.textContent = film.titleRu;
-        this.modalTitleOrig.textContent = film.titleOriginal + ' (' + film.year + ')';
-        this.modalDescription.textContent = film.description || '';
-        this.modalGenres.textContent = 'Жанры: ' + film.genres.join(', ');
-        this.modalPrice.textContent = 'Цена: ' + (film.price * 2) + '₽';
+        this.modalTitleRu.textContent = book.titleRu;
+        this.modalAuthor.textContent = book.author;
+        this.modalDescription.textContent = book.description || '';
+        this.modalGenres.textContent = 'Жанры: ' + (book.genres ? book.genres.join(', ') : '');
+        this.modalPrice.textContent = 'Цена: ' + Math.floor(book.price * 1.5) + '₽';
 
-        this.filmModal.classList.remove('hidden');
+        this.bookModal.classList.remove('hidden');
     }
 
-    closeFilmModal() {
-        this.filmModal.classList.add('hidden');
+    closeBookModal() {
+        this.bookModal.classList.add('hidden');
         this.selectedSlot = null;
     }
 
-    offerFilm() {
+    offerBook() {
         if (this.selectedSlot === null || !this.currentRequest) return;
 
         const slotIndex = this.selectedSlot;
-        const film = this.shelf[slotIndex];
-        const isMatch = this.currentRequest.linkedFilmIds.includes(film.id);
+        const book = this.shelf[slotIndex];
+        const isMatch = this.currentRequest.linkedBookIds.includes(book.id);
 
-        this.closeFilmModal();
+        this.closeBookModal();
 
         if (isMatch) {
             // Success!
-            this.handleSale(film, slotIndex);
+            this.handleSale(book, slotIndex);
         } else {
             // Fail
             this.handleRejection();
         }
     }
 
-    handleSale(film, slotIndex) {
-        const salePrice = film.price * 2;
+    handleSale(book, slotIndex) {
+        const salePrice = Math.floor(book.price * 1.5);
         this.balance += salePrice;
         this.soldTotal++;
-        this.soldUnique.add(film.id);
+        this.soldUnique.add(book.id);
 
         const slotEl = this.shelfEl.querySelector(`.shelf-slot[data-index="${slotIndex}"]`);
         if (slotEl) {
@@ -473,7 +535,7 @@ class VHSTraderGame {
         // Remove from shelf with a short transition so the slot visibly clears
         setTimeout(() => {
             this.shelf[slotIndex] = null;
-            this.ownedFilms.delete(film.id);
+            this.ownedBooks.delete(book.id);
             this.renderShelf();
             // Save progress after sale
             this.saveProgress();
@@ -483,8 +545,8 @@ class VHSTraderGame {
 
         // Feedback
         const panel = document.getElementById('customer-panel');
-        panel.classList.add('sale-success');
-        setTimeout(() => panel.classList.remove('sale-success'), 500);
+        // panel.classList.add('sale-success');
+        // setTimeout(() => panel.classList.remove('sale-success'), 500);
 
         // Check win condition
         if (this.checkWinCondition()) return;
@@ -495,13 +557,13 @@ class VHSTraderGame {
 
     handleRejection() {
         const panel = document.getElementById('customer-panel');
-        panel.classList.add('sale-fail');
-        setTimeout(() => panel.classList.remove('sale-fail'), 500);
+        // panel.classList.add('sale-fail');
+        // setTimeout(() => panel.classList.remove('sale-fail'), 500);
 
         const rejections = [
             "Нет, это не то... Пойду поищу в другом месте.",
             "Хм, не подходит. До свидания!",
-            "Это не то, что я искал. Удачи!",
+            "Автор не тот, да и жанр...",
             "Нет, спасибо. Пойду дальше.",
             "Не то, что я хотел. Всего хорошего!"
         ];
@@ -518,7 +580,7 @@ class VHSTraderGame {
         this.currentRequest = null;
 
         this.customerAvatarEl.textContent = '🌙';
-        this.customerRequestEl.textContent = 'Магазин закрыт. Время пополнить запасы!';
+        this.customerRequestEl.textContent = 'Лавка закрыта. Время пополнить книжные полки!';
         this.currentCustomerEl.textContent = '0';
         this.totalCustomersEl.textContent = '0';
 
@@ -533,7 +595,7 @@ class VHSTraderGame {
     // ==========================================
 
     openShop() {
-        this.shopBalanceEl.textContent = this.balance;
+        this.shopBalanceEl.textContent = Math.floor(this.balance);
         this.emptySlotsEl.textContent = this.shelf.filter(s => s === null).length;
         this.renderShopCatalog();
         this.shopModal.classList.remove('hidden');
@@ -542,39 +604,40 @@ class VHSTraderGame {
     renderShopCatalog() {
         const genreFilter = this.filterGenre.value;
         const priceFilter = this.filterPrice.value;
+        const allBooks = typeof BOOKS !== 'undefined' ? BOOKS : [];
 
-        // 1. Get films in randomized order, filter out owned
-        let films = this.shopFilmOrder
-            .map(id => FILMS.find(f => f.id === id))
-            .filter(film => film && !this.ownedFilms.has(film.id));
+        // 1. Get books in randomized order, filter out owned
+        let books = this.shopBookOrder
+            .map(id => allBooks.find(b => b.id === id))
+            .filter(book => book && !this.ownedBooks.has(book.id));
 
         // Apply genre filter
         if (genreFilter) {
-            films = films.filter(film => film.genres.includes(genreFilter));
+            books = books.filter(book => book.genres.includes(genreFilter));
         }
 
         // Apply price filter
         if (priceFilter === 'cheap') {
-            films = films.filter(film => film.price <= 100);
+            books = books.filter(book => book.price <= 200);
         } else if (priceFilter === 'medium') {
-            films = films.filter(film => film.price > 100 && film.price <= 300);
+            books = books.filter(book => book.price > 200 && book.price <= 450);
         } else if (priceFilter === 'expensive') {
-            films = films.filter(film => film.price > 300);
+            books = books.filter(book => book.price > 450);
         }
 
         this.shopCatalog.innerHTML = '';
 
         // 2. Render items
-        if (films.length === 0) {
-            this.shopCatalog.innerHTML = '<p style="text-align:center;color:#888;padding:20px;grid-column:1/-1;">Нет доступных фильмов по выбранным фильтрам</p>';
+        if (books.length === 0) {
+            this.shopCatalog.innerHTML = '<p style="text-align:center;color:#888;padding:20px;grid-column:1/-1;">Нет доступных книг по выбранным фильтрам</p>';
             return;
         }
 
-        films.forEach(film => {
+        books.forEach(book => {
             const item = document.createElement('div');
             item.className = 'shop-item';
 
-            const canAfford = this.balance >= film.price;
+            const canAfford = this.balance >= book.price;
             const hasEmptySlot = this.shelf.some(s => s === null);
             const isPurchasable = canAfford && hasEmptySlot;
 
@@ -587,22 +650,19 @@ class VHSTraderGame {
             if (isPurchasable) {
                 buttonHtml = `<button class="btn-buy">Купить</button>`;
             } else if (!canAfford) {
-                buttonHtml = `<div style="color:var(--neon-pink);font-size:10px;">Не хватает денег</div>`;
+                buttonHtml = `<div style="color:var(--accent-red);font-size:10px;font-weight:bold;">Не хватает денег</div>`;
             } else {
-                buttonHtml = `<div style="color:var(--text-secondary);font-size:10px;">Нет места</div>`;
+                buttonHtml = `<div style="color:var(--text-secondary);font-size:10px;font-weight:bold;">Нет места</div>`;
             }
 
             item.innerHTML = `
                 <div class="shop-vhs-case">
-                    <div class="shop-vhs-spine"></div>
                     <div class="shop-cover-wrapper">
-                        <img src="${film.coverUrl}" alt="${film.titleRu}" onerror="this.src='https://placehold.co/120x160/2d1f3d/9d4edd?text=VHS'">
-                    </div>
-                    <div class="shop-vhs-label">
-                        <div class="shop-item-title">${film.titleRu}</div>
-                        <div class="shop-item-price">${film.price}₽</div>
+                        <img src="${book.coverUrl}" alt="${book.titleRu}" onerror="this.src='https://placehold.co/120x160/4a3728/f9f5eb?text=Книга'">
                     </div>
                 </div>
+                <div class="shop-item-title">${book.titleRu}</div>
+                <div class="shop-item-price">${book.price}₽</div>
                 ${buttonHtml}
             `;
 
@@ -610,7 +670,7 @@ class VHSTraderGame {
                 const btn = item.querySelector('.btn-buy');
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation(); // prevent card click if we add one later
-                    this.buyFilm(film);
+                    this.buyBook(book);
                 });
             }
 
@@ -618,17 +678,18 @@ class VHSTraderGame {
         });
     }
 
-    buyFilm(film) {
-        if (this.balance < film.price) return;
+    buyBook(book) {
+        if (this.balance < book.price) return;
 
         const emptySlotIndex = this.shelf.findIndex(s => s === null);
         if (emptySlotIndex === -1) return;
 
-        this.balance -= film.price;
-        this.shelf[emptySlotIndex] = film;
-        this.ownedFilms.add(film.id);
+        this.balance -= book.price;
+        // Keep balance as integer logic if needed, but simple subtraction is fine
+        this.shelf[emptySlotIndex] = book;
+        this.ownedBooks.add(book.id);
 
-        this.shopBalanceEl.textContent = this.balance;
+        this.shopBalanceEl.textContent = Math.floor(this.balance);
         this.emptySlotsEl.textContent = this.shelf.filter(s => s === null).length;
 
         this.renderShopCatalog();
@@ -657,7 +718,7 @@ class VHSTraderGame {
 
         this.btnStartDay.style.display = 'inline-block';
         this.customerAvatarEl.textContent = '☀️';
-        this.customerRequestEl.textContent = `День ${this.day}. Нажмите "Начать день" чтобы открыть магазин.`;
+        this.customerRequestEl.textContent = `День ${this.day}. Нажмите "Начать день" чтобы открыть лавку.`;
 
         this.updateStats();
         // Save progress when new day starts
@@ -675,9 +736,7 @@ class VHSTraderGame {
             try {
                 this.ysdk.adv.showFullscreenAdv({
                     callbacks: {
-                        onOpen: function () {
-                            // Действие после открытия рекламы.
-                        },
+                        onOpen: function () { },
                         onClose: (wasShown) => {
                             this.startGameplaySession();
                             resolve(wasShown);
@@ -707,11 +766,11 @@ class VHSTraderGame {
 
     checkWinCondition() {
         if (this.soldUnique.size >= this.UNIQUE_WIN) {
-            this.showVictory(`Вы продали ${this.soldUnique.size} разных фильмов!`);
+            this.showVictory(`Вы продали ${this.soldUnique.size} разных книг!`);
             return true;
         }
         if (this.soldTotal >= this.TOTAL_WIN) {
-            this.showVictory(`Вы продали ${this.soldTotal} фильмов!`);
+            this.showVictory(`Вы продали ${this.soldTotal} книг!`);
             return true;
         }
         return false;
@@ -729,9 +788,7 @@ class VHSTraderGame {
     }
 
     restartGame() {
-        // Clear saved progress
         this.clearProgress();
-
         this.startInitialGameplaySession();
 
         // Reset all state
@@ -740,9 +797,9 @@ class VHSTraderGame {
         this.soldUnique = new Set();
         this.soldTotal = 0;
         this.shelf = [];
-        this.ownedFilms = new Set();
+        this.ownedBooks = new Set();
         this.inventory = [];
-        this.shopFilmOrder = [];
+        this.shopBookOrder = [];
         this.currentCustomerIndex = 0;
         this.todayCustomers = [];
         this.currentRequest = null;
@@ -754,7 +811,7 @@ class VHSTraderGame {
 
         // Hide modals
         this.victoryModal.classList.add('hidden');
-        this.filmModal.classList.add('hidden');
+        this.bookModal.classList.add('hidden');
         this.shopModal.classList.add('hidden');
 
         // Reset UI
@@ -763,7 +820,7 @@ class VHSTraderGame {
         this.btnEndDay.style.display = 'none';
 
         this.customerAvatarEl.textContent = '🧑';
-        this.customerRequestEl.textContent = 'Нажмите "Начать день" чтобы открыть магазин';
+        this.customerRequestEl.textContent = 'Нажмите "Начать день" чтобы открыть лавку';
         this.currentCustomerEl.textContent = '0';
         this.totalCustomersEl.textContent = '0';
 
@@ -787,9 +844,9 @@ class VHSTraderGame {
             day: this.day,
             soldTotal: this.soldTotal,
             soldUnique: [...this.soldUnique],
-            shelf: this.shelf.map(film => film ? film.id : null),
-            ownedFilms: [...this.ownedFilms],
-            shopFilmOrder: this.shopFilmOrder
+            shelf: this.shelf.map(book => book ? book.id : null),
+            ownedBooks: [...this.ownedBooks],
+            shopBookOrder: this.shopBookOrder
         };
     }
 
@@ -798,132 +855,90 @@ class VHSTraderGame {
         this.day = saveData.day ?? 1;
         this.soldTotal = saveData.soldTotal ?? 0;
         this.soldUnique = new Set(saveData.soldUnique || []);
-        this.ownedFilms = new Set(saveData.ownedFilms || []);
+        this.ownedBooks = new Set(saveData.ownedBooks || []);
 
-        if (Array.isArray(saveData.shopFilmOrder) && saveData.shopFilmOrder.length > 0) {
-            this.shopFilmOrder = saveData.shopFilmOrder;
+        // Load shelf
+        this.shelf = (saveData.shelf || []).map(id => {
+            if (id === null) return null;
+            const book = typeof BOOKS !== 'undefined' ? BOOKS.find(b => b.id === id) : null;
+            return book || null;
+        });
+
+        // Load or regenerate shop order
+        if (saveData.shopBookOrder && saveData.shopBookOrder.length > 0) {
+            this.shopBookOrder = saveData.shopBookOrder;
         } else {
-            this.shopFilmOrder = [...FILMS].sort(() => Math.random() - 0.5).map(f => f.id);
+            // Fallback if loading old save without book order
+            const allBooks = typeof BOOKS !== 'undefined' ? BOOKS : [];
+            this.shopBookOrder = allBooks.map(b => b.id);
         }
-
-        this.shelf = (saveData.shelf || []).map(filmId => {
-            if (filmId === null || typeof filmId === 'undefined') return null;
-            return FILMS.find(f => f.id === filmId) || null;
-        });
-
-        while (this.shelf.length < 10) {
-            this.shelf.push(null);
-        }
-
-        this.shelf.forEach(film => {
-            if (film) {
-                this.ownedFilms.add(film.id);
-            }
-        });
     }
 
-    async loadProgress() {
-        const cloudData = await this.loadFromCloud();
-        if (cloudData) {
-            this.applySaveData(cloudData);
-            this.saveToLocal(cloudData);
-            return true;
-        }
-
-        const localData = this.loadFromLocal();
-        if (localData) {
-            this.applySaveData(localData);
-            return true;
-        }
-
-        return false;
-    }
-
-    async loadFromCloud() {
-        if (!this.canReadCloudSaves || !this.player) return null;
-
+    saveToLocal(data) {
         try {
-            const cloudData = await this.player.getData([this.STORAGE_KEY]);
-            const saveData = cloudData?.[this.STORAGE_KEY];
-
-            if (!saveData) return null;
-
-            if (typeof saveData === 'string') {
-                try {
-                    return JSON.parse(saveData);
-                } catch (e) {
-                    console.warn('Не удалось распарсить облачное сохранение', e);
-                    return null;
-                }
-            }
-
-            return saveData;
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
         } catch (e) {
-            console.warn('Не удалось загрузить сохранение из облака', e);
-            return null;
+            console.warn('LocalStorage save failed', e);
         }
     }
 
     loadFromLocal() {
         try {
-            const saved = localStorage.getItem(this.STORAGE_KEY);
-            if (!saved) return null;
-            return JSON.parse(saved);
+            const raw = localStorage.getItem(this.STORAGE_KEY);
+            return raw ? JSON.parse(raw) : null;
         } catch (e) {
-            console.warn('Could not load progress:', e);
             return null;
         }
     }
 
-    saveToLocal(saveData) {
+    async saveToCloud(data) {
+        if (!this.canWriteCloudSaves || !this.player) return;
         try {
-            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(saveData));
+            await this.player.setData({ [this.STORAGE_KEY]: data }, true);
         } catch (e) {
-            console.warn('Could not save progress:', e);
+            console.warn('Cloud save failed', e);
         }
     }
 
-    async saveToCloud(saveData) {
-        if (!this.canWriteCloudSaves || !this.player?.setData) return;
-
+    async loadFromCloud() {
+        if (!this.canReadCloudSaves || !this.player) return null;
         try {
-            await this.player.setData({ [this.STORAGE_KEY]: saveData });
+            const data = await this.player.getData([this.STORAGE_KEY]);
+            return data[this.STORAGE_KEY] || null;
         } catch (e) {
-            console.warn('Не удалось сохранить прогресс в облако', e);
+            console.warn('Cloud load failed', e);
+            return null;
         }
+    }
+
+    async loadProgress() {
+        // Try cloud first, then local
+        let data = await this.loadFromCloud();
+        if (!data) {
+            data = this.loadFromLocal();
+        }
+
+        if (data) {
+            // Check if save is from old VHS version (has 'ownedFilms' but no 'ownedBooks')
+            // If so, we should probably reset or try to migrate, but simple is reset.
+            if (!data.ownedBooks && data.ownedFilms) {
+                console.log('Detected old VHS save, resetting for Books');
+                return false;
+            }
+
+            this.applySaveData(data);
+            return true;
+        }
+        return false;
     }
 
     clearProgress() {
-        try {
-            localStorage.removeItem(this.STORAGE_KEY);
-        } catch (e) {
-            console.warn('Could not clear progress:', e);
-        }
-
-        this.clearCloudProgress();
-    }
-
-    async clearCloudProgress() {
-        if (!this.canWriteCloudSaves || !this.player?.setData) return;
-        try {
-            await this.player.setData({ [this.STORAGE_KEY]: null });
-        } catch (e) {
-            console.warn('Не удалось очистить облачное сохранение', e);
-        }
-    }
-
-    hasSavedProgress() {
-        try {
-            return localStorage.getItem(this.STORAGE_KEY) !== null;
-        } catch (e) {
-            return false;
+        localStorage.removeItem(this.STORAGE_KEY);
+        if (this.canWriteCloudSaves && this.player) {
+            this.player.setData({ [this.STORAGE_KEY]: {} }, true).catch(() => { });
         }
     }
 }
 
-// ==========================================
-// INITIALIZE GAME
-// ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-    window.game = new VHSTraderGame();
-});
+// Start the game
+window.game = new BookTraderGame();
