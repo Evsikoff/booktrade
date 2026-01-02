@@ -305,7 +305,7 @@ class BookTraderGame {
         this.shopBookOrder = [...allBooks].sort(() => Math.random() - 0.5).map(b => b.id);
         this.shelf = [];
         this.ownedBooks = new Set();
-        this.balance = 500; // Starting capital
+        this.balance = 0; // Starting capital
 
         // Initial stock: 10 ramdom books from the shop order
         for (let i = 0; i < 10; i++) {
@@ -377,7 +377,7 @@ class BookTraderGame {
                         <div class="book-info">
                             <div class="book-title">${book.titleRu}</div>
                             <div class="book-author">${book.author}</div>
-                            <div class="book-price">${sellingPrice}₽</div>
+                            <div class="book-price">${sellingPrice} ₽</div>
                         </div>
                     `;
                     slot.addEventListener('click', () => this.openBookModal(i));
@@ -500,7 +500,7 @@ class BookTraderGame {
         this.modalAuthor.textContent = book.author;
         this.modalDescription.textContent = book.description || '';
         this.modalGenres.textContent = 'Жанры: ' + (book.genres ? book.genres.join(', ') : '');
-        this.modalPrice.textContent = 'Цена: ' + Math.floor(book.price * 1.5) + '₽';
+        this.modalPrice.textContent = 'Цена: ' + Math.floor(book.price * 1.5) + ' ₽';
 
         this.bookModal.classList.remove('hidden');
     }
@@ -550,7 +550,7 @@ class BookTraderGame {
             this.saveProgress();
         }, 400);
 
-        this.customerRequestEl.textContent = `"Отлично! Именно то, что я искал! Держите ${salePrice}₽"`;
+        this.customerRequestEl.textContent = `"Отлично! Именно то, что я искал! Держите ${salePrice} ₽"`;
 
         // Feedback
         const panel = document.getElementById('customer-panel');
@@ -671,7 +671,7 @@ class BookTraderGame {
                     </div>
                 </div>
                 <div class="shop-item-title">${book.titleRu}</div>
-                <div class="shop-item-price">${book.price}₽</div>
+                <div class="shop-item-price">${book.price} ₽</div>
                 ${buttonHtml}
             `;
 
@@ -786,7 +786,7 @@ class BookTraderGame {
     }
 
     showVictory(message) {
-        this.victoryMessage.textContent = message + ` Ваш баланс: ${this.balance}₽. Дней: ${this.day}.`;
+        this.victoryMessage.textContent = message + ` Ваш баланс: ${this.balance} ₽. Дней: ${this.day}.`;
         this.victoryModal.classList.remove('hidden');
     }
 
