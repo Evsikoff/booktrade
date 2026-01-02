@@ -47,7 +47,7 @@ class BookTraderGame {
         // DOM elements
         this.initializeDOM();
         this.bindEvents();
-        // this.preventTextSelectionAndContextMenu(); // Optional for library vibe
+        this.preventTextSelectionAndContextMenu();
         this.initializeGame().catch((e) => console.error('Ошибка инициализации игры', e));
     }
 
@@ -671,6 +671,7 @@ class BookTraderGame {
                     </div>
                 </div>
                 <div class="shop-item-title">${book.titleRu}</div>
+                <div class="shop-item-author">${book.author}</div>
                 <div class="shop-item-price">${book.price} ₽</div>
                 ${buttonHtml}
             `;

@@ -735,6 +735,18 @@ select {
     overflow: hidden;
 }
 
+.shop-item-author {
+    font-size: 11px;
+    font-style: italic;
+    color: var(--text-secondary);
+    text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 .shop-item-price {
     text-align: center;
     font-weight: bold;
