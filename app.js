@@ -100,6 +100,12 @@ class BookTraderGame {
         this.victoryMessage = document.getElementById('victory-message');
         this.btnRestart = document.getElementById('btn-restart');
 
+        // Confirmation modal
+        this.confirmModal = document.getElementById('confirm-modal');
+        this.confirmMessage = document.getElementById('confirm-message');
+        this.btnConfirmYes = document.getElementById('btn-confirm-yes');
+        this.btnConfirmNo = document.getElementById('btn-confirm-no');
+
         // Loading
         this.loadingOverlay = document.getElementById('loading-overlay');
         this.loadingStatusEl = document.getElementById('loading-status');
@@ -119,6 +125,13 @@ class BookTraderGame {
         this.filterPrice.addEventListener('change', () => this.renderShopCatalog());
 
         this.btnRestart.addEventListener('click', () => this.restartGame());
+
+        // Confirmation modal
+        this.btnConfirmYes.addEventListener('click', () => {
+            this.closeConfirmModal();
+            this.restartGame();
+        });
+        this.btnConfirmNo.addEventListener('click', () => this.closeConfirmModal());
     }
 
     preventTextSelectionAndContextMenu() {
@@ -790,10 +803,28 @@ class BookTraderGame {
         this.victoryModal.classList.remove('hidden');
     }
 
+    hasProgress() {
+        // Check if player has any progress worth saving
+        return this.soldTotal > 0 || this.soldUnique.size > 0 || this.day > 1;
+    }
+
     confirmNewGame() {
-        if (confirm('Вы уверены? Весь прогресс будет потерян!')) {
+        // If no progress, just restart without confirmation
+        if (!this.hasProgress()) {
             this.restartGame();
+            return;
         }
+
+        // Show custom confirmation modal
+        this.openConfirmModal();
+    }
+
+    openConfirmModal() {
+        this.confirmModal.classList.remove('hidden');
+    }
+
+    closeConfirmModal() {
+        this.confirmModal.classList.add('hidden');
     }
 
     restartGame() {

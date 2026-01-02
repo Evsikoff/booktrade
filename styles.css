@@ -788,3 +788,44 @@ select {
     animation: spin 1s linear infinite;
     margin: 0 auto 20px;
 }
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-title {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.loading-subtitle {
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+/* === CONFIRMATION MODAL === */
+.confirm-content {
+    max-width: 400px;
+    padding: 30px 40px;
+}
+
+.confirm-content h2 {
+    font-family: var(--font-heading);
+    color: var(--accent-red);
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+.confirm-content p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin-bottom: 25px;
+}
+
+.confirm-content .modal-actions {
+    gap: 15px;
+}
