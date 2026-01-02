@@ -349,38 +349,47 @@ class BookTraderGame {
     renderShelf() {
         this.shelfEl.innerHTML = '';
 
-        for (let i = 0; i < 10; i++) {
-            const slot = document.createElement('div');
-            slot.className = 'shelf-slot';
-            slot.dataset.index = i;
+        const booksPerRow = 5;
+        const totalSlots = 10;
+        const rowCount = Math.ceil(totalSlots / booksPerRow);
 
-            if (this.shelf[i]) {
-                const book = this.shelf[i];
-                // Selling price is purchase price * 1.5
-                const sellingPrice = Math.floor(book.price * 1.5);
+        for (let row = 0; row < rowCount; row++) {
+            const rowEl = document.createElement('div');
+            rowEl.className = 'shelf-row';
 
-                slot.innerHTML = `
-                    <div class="shelf-running-content">
-                        <div class="vhs-case">
-                            <div class="vhs-spine"></div>
-                            <div class="cover-wrapper">
-                                <img src="${book.coverUrl}" alt="${book.titleRu}" onerror="this.src='https://placehold.co/200x300/4a3728/f9f5eb?text=Книга'">
-                            </div>
+            for (let col = 0; col < booksPerRow; col++) {
+                const i = row * booksPerRow + col;
+                if (i >= totalSlots) break;
+
+                const slot = document.createElement('div');
+                slot.className = 'shelf-slot';
+                slot.dataset.index = i;
+
+                if (this.shelf[i]) {
+                    const book = this.shelf[i];
+                    const sellingPrice = Math.floor(book.price * 1.5);
+
+                    slot.innerHTML = `
+                        <div class="book-cover">
+                            <div class="book-spine"></div>
+                            <img src="${book.coverUrl}" alt="${book.titleRu}" onerror="this.src='https://placehold.co/85x120/4a3728/f9f5eb?text=Книга'">
                         </div>
-                        <div class="slot-curtain">
-                            <div class="slot-title">${book.titleRu}</div>
-                            <div class="slot-title" style="font-size:10px;font-style:italic;">${book.author}</div>
-                            <div class="slot-price">${sellingPrice}₽</div>
+                        <div class="book-info">
+                            <div class="book-title">${book.titleRu}</div>
+                            <div class="book-author">${book.author}</div>
+                            <div class="book-price">${sellingPrice}₽</div>
                         </div>
-                    </div>
-                `;
-                slot.addEventListener('click', () => this.openBookModal(i));
-            } else {
-                slot.classList.add('empty');
-                slot.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#888;font-size:24px;">⛔</div>';
+                    `;
+                    slot.addEventListener('click', () => this.openBookModal(i));
+                } else {
+                    slot.classList.add('empty');
+                    slot.innerHTML = '<div class="empty-slot-icon">📚</div>';
+                }
+
+                rowEl.appendChild(slot);
             }
 
-            this.shelfEl.appendChild(slot);
+            this.shelfEl.appendChild(rowEl);
         }
     }
 
@@ -539,7 +548,7 @@ class BookTraderGame {
             this.renderShelf();
             // Save progress after sale
             this.saveProgress();
-        }, 200);
+        }, 400);
 
         this.customerRequestEl.textContent = `"Отлично! Именно то, что я искал! Держите ${salePrice}₽"`;
 
