@@ -151,6 +151,7 @@ class BookTraderGame {
         }
 
         this.populateGenreFilter();
+        this.preloadShelfCovers();
         this.renderShelf();
         this.updateStats();
 
@@ -352,6 +353,16 @@ class BookTraderGame {
         });
     }
 
+    preloadShelfCovers() {
+        // Preload covers for books currently on shelf
+        this.shelf.forEach(book => {
+            if (book && book.coverUrl) {
+                const img = new Image();
+                img.src = book.coverUrl;
+            }
+        });
+    }
+
     updateStats() {
         this.balanceEl.textContent = Math.floor(this.balance);
         this.soldUniqueEl.textContent = this.soldUnique.size;
@@ -385,7 +396,7 @@ class BookTraderGame {
                     slot.innerHTML = `
                         <div class="book-cover">
                             <div class="book-spine"></div>
-                            <img src="${book.coverUrl}" alt="${book.titleRu}" onerror="this.src='https://placehold.co/85x120/4a3728/f9f5eb?text=Книга'">
+                            <img src="${book.coverUrl}" alt="${book.titleRu}" loading="eager" decoding="async" onload="this.classList.add('loaded')" onerror="this.src='https://placehold.co/85x120/4a3728/f9f5eb?text=Книга'">
                         </div>
                         <div class="book-info">
                             <div class="book-title">${book.titleRu}</div>
@@ -680,7 +691,7 @@ class BookTraderGame {
             item.innerHTML = `
                 <div class="shop-vhs-case">
                     <div class="shop-cover-wrapper">
-                        <img src="${book.coverUrl}" alt="${book.titleRu}" onerror="this.src='https://placehold.co/120x160/4a3728/f9f5eb?text=Книга'">
+                        <img src="${book.coverUrl}" alt="${book.titleRu}" loading="lazy" decoding="async" onload="this.classList.add('loaded')" onerror="this.src='https://placehold.co/120x160/4a3728/f9f5eb?text=Книга'">
                     </div>
                 </div>
                 <div class="shop-item-title">${book.titleRu}</div>
@@ -714,6 +725,12 @@ class BookTraderGame {
 
         this.shopBalanceEl.textContent = Math.floor(this.balance);
         this.emptySlotsEl.textContent = this.shelf.filter(s => s === null).length;
+
+        // Preload the new book cover for shelf display
+        if (book.coverUrl) {
+            const img = new Image();
+            img.src = book.coverUrl;
+        }
 
         this.renderShopCatalog();
         this.renderShelf();

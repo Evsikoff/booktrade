@@ -318,6 +318,12 @@ body {
     height: 100%;
     object-fit: cover;
     display: block;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.book-cover img.loaded {
+    opacity: 1;
 }
 
 /* Эффект переплета книги */
@@ -721,6 +727,12 @@ select {
     height: 100%;
     object-fit: cover;
     border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.shop-cover-wrapper img.loaded {
+    opacity: 1;
 }
 
 .shop-item-title {
