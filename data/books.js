@@ -1,208 +1,2524 @@
 const BOOKS = [
-    // === МИРОВАЯ КЛАССИКА (50 книг) ===
-    { id: 1, titleRu: "Преступление и наказание", author: "Фёдор Достоевский", year: 1866, genres: ["классика", "драма"], price: 300, description: "Студент Раскольников решается на убийство ради теории.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Достоевский" },
-    { id: 2, titleRu: "Война и мир", author: "Лев Толстой", year: 1869, genres: ["классика", "исторический"], price: 500, description: "Эпопея о жизни русского общества в эпоху войн против Наполеона.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Толстой" },
-    { id: 3, titleRu: "Мастер и Маргарита", author: "Михаил Булгаков", year: 1967, genres: ["классика", "мистика"], price: 400, description: "Сатана посещает Москву 30-х годов.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Булгаков" },
-    { id: 4, titleRu: "Евгений Онегин", author: "Александр Пушкин", year: 1833, genres: ["классика", "поэзия"], price: 250, description: "Роман в стихах о неудавшейся любви.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Пушкин" },
-    { id: 5, titleRu: "Анна Каренина", author: "Лев Толстой", year: 1877, genres: ["классика", "драма"], price: 350, description: "Трагическая история любви замужней дамы.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Каренина" },
-    { id: 6, titleRu: "Идиот", author: "Фёдор Достоевский", year: 1869, genres: ["классика", "драма"], price: 320, description: "История князя Мышкина, человека кристальной чистоты.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Идиот" },
-    { id: 7, titleRu: "Мертвые души", author: "Николай Гоголь", year: 1842, genres: ["классика", "сатира"], price: 280, description: "Чичиков скупает мертвые души крестьян.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Гоголь" },
-    { id: 8, titleRu: "Отцы и дети", author: "Иван Тургенев", year: 1862, genres: ["классика", "драма"], price: 260, description: "Конфликт поколений и нигилизм Базарова.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Тургенев" },
-    { id: 9, titleRu: "Герой нашего времени", author: "Михаил Лермонтов", year: 1840, genres: ["классика", "драма"], price: 270, description: "История лишнего человека Печорина.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Лермонтов" },
-    { id: 10, titleRu: "1984", author: "Джордж Оруэлл", year: 1949, genres: ["классика", "антиутопия"], price: 350, description: "Тоталитарное государство следит за каждым.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=1984" },
-    { id: 11, titleRu: "Улисс", author: "Джеймс Джойс", year: 1922, genres: ["классика", "модернизм"], price: 600, description: "Один день из жизни дублинца Леопольда Блума.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Джойс" },
-    { id: 12, titleRu: "Лолита", author: "Владимир Набоков", year: 1955, genres: ["классика", "драма"], price: 380, description: "Скандальная история одержимости взрослого мужчины.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Набоков" },
-    { id: 13, titleRu: "Звук и ярость", author: "Уильям Фолкнер", year: 1929, genres: ["классика", "модернизм"], price: 400, description: "Упадок южной аристократической семьи.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Фолкнер" },
-    { id: 14, titleRu: "Над пропастью во ржи", author: "Джером Сэлинджер", year: 1951, genres: ["классика", "роман взросления"], price: 300, description: "Подросток Холден Колфилд бунтует против мира взрослых.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Сэлинджер" },
-    { id: 15, titleRu: "Гордость и предубеждение", author: "Джейн Остин", year: 1813, genres: ["классика", "романтика"], price: 320, description: "История любви Элизабет Беннет и мистера Дарси.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Остин" },
-    { id: 16, titleRu: "Великий Гэтсби", author: "Фрэнсис Скотт Фицджеральд", year: 1925, genres: ["классика", "драма"], price: 310, description: "Блеск и нищета эпохи джаза.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Гэтсби" },
-    { id: 17, titleRu: "Сто лет одиночества", author: "Габриэль Гарсиа Маркес", year: 1967, genres: ["классика", "магический реализм"], price: 450, description: "История рода Буэндиа в городе Макондо.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Маркес" },
-    { id: 18, titleRu: "Дон Кихот", author: "Мигель де Сервантес", year: 1605, genres: ["классика", "приключения"], price: 500, description: "Рыцарь печального образа сражается с ветряными мельницами.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=ДонКихот" },
-    { id: 19, titleRu: "Моби Дик", author: "Герман Мелвилл", year: 1851, genres: ["классика", "приключения"], price: 420, description: "Охота капитана Ахава на белого кита.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=МобиДик" },
-    { id: 20, titleRu: "Убить пересмешника", author: "Харпер Ли", year: 1960, genres: ["классика", "драма"], price: 330, description: "Адвокат защищает темнокожего, ложно обвиненного в преступлении.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Ли" },
-    { id: 21, titleRu: "Братья Карамазовы", author: "Фёдор Достоевский", year: 1880, genres: ["классика", "философия"], price: 450, description: "Сложные отношения в семье Карамазовых и вопросы веры.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Карамазовы" },
-    { id: 22, titleRu: "Джейн Эйр", author: "Шарлотта Бронте", year: 1847, genres: ["классика", "романтика"], price: 290, description: "История сироты, ставшей гувернанткой.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=ДжейнЭйр" },
-    { id: 23, titleRu: "Грозовой перевал", author: "Эмили Бронте", year: 1847, genres: ["классика", "драма"], price: 290, description: "Мрачная история любви Хитклиффа и Кэтрин.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=ГрозовойПеревал" },
-    { id: 24, titleRu: "Приключения Тома Сойера", author: "Марк Твен", year: 1876, genres: ["классика", "приключения"], price: 250, description: "Веселые похождения мальчика на Миссисипи.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Твен" },
-    { id: 25, titleRu: "Алиса в Стране чудес", author: "Льюис Кэрролл", year: 1865, genres: ["классика", "фэнтези"], price: 280, description: "Девочка падает в кроличью нору и попадает в абсурдный мир.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Алиса" },
-    { id: 26, titleRu: "Маленький принц", author: "Антуан де Сент-Экзюпери", year: 1943, genres: ["классика", "сказка"], price: 220, description: "Философская сказка о мальчике с другой планеты.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Принц" },
-    { id: 27, titleRu: "Три товарища", author: "Эрих Мария Ремарк", year: 1936, genres: ["классика", "драма"], price: 340, description: "Дружба и любовь в Германии между войнами.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Ремарк" },
-    { id: 28, titleRu: "На Западном фронте без перемен", author: "Эрих Мария Ремарк", year: 1929, genres: ["классика", "военный"], price: 330, description: "Ужасы Первой мировой войны глазами солдата.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Ремарк" },
-    { id: 29, titleRu: "Старик и море", author: "Эрнест Хемингуэй", year: 1952, genres: ["классика", "притча"], price: 250, description: "Борьба старого рыбака с огромной рыбой.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Хемингуэй" },
-    { id: 30, titleRu: "Повелитель мух", author: "Уильям Голдинг", year: 1954, genres: ["классика", "драма"], price: 300, description: "Мальчики на необитаемом острове дичают.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Голдинг" },
-    { id: 31, titleRu: "О дивный новый мир", author: "Олдос Хаксли", year: 1932, genres: ["классика", "антиутопия"], price: 340, description: "Мир будущего, где люди выращиваются в инкубаторах.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Хаксли" },
-    { id: 32, titleRu: "451 градус по Фаренгейту", author: "Рэй Брэдбери", year: 1953, genres: ["классика", "фантастика"], price: 310, description: "Мир, где пожарные сжигают книги.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Брэдбери" },
-    { id: 33, titleRu: "Властелин колец", author: "Дж. Р. Р. Толкин", year: 1954, genres: ["классика", "фэнтези"], price: 700, description: "Эпическое путешествие хоббита Фродо.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Толкин" },
-    { id: 34, titleRu: "Хоббит", author: "Дж. Р. Р. Толкин", year: 1937, genres: ["классика", "фэнтези"], price: 400, description: "Приключения Бильбо Бэггинса.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Хоббит" },
-    { id: 35, titleRu: "Граф Монте-Кристо", author: "Александр Дюма", year: 1844, genres: ["классика", "приключения"], price: 550, description: "История мести Эдмона Дантеса.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Дюма" },
-    { id: 36, titleRu: "Три мушкетера", author: "Александр Дюма", year: 1844, genres: ["классика", "приключения"], price: 450, description: "Д'Артаньян и его друзья спасают честь королевы.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Мушкетеры" },
-    { id: 37, titleRu: "Шерлок Холмс", author: "Артур Конан Дойл", year: 1887, genres: ["классика", "детектив"], price: 380, description: "Приключения гениального сыщика.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Холмс" },
-    { id: 38, titleRu: "Дракула", author: "Брэм Стокер", year: 1897, genres: ["классика", "ужасы"], price: 300, description: "Вампир граф Дракула переезжает в Лондон.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Дракула" },
-    { id: 39, titleRu: "Франкенштейн", author: "Мэри Шелли", year: 1818, genres: ["классика", "ужасы"], price: 280, description: "Ученый создает живое существо из мертвой материи.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Франкенштейн" },
-    { id: 40, titleRu: "Портрет Дориана Грея", author: "Оскар Уайльд", year: 1890, genres: ["классика", "мистика"], price: 320, description: "Портрет молодеет, а его владелец стареет душой.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Уайльд" },
-    { id: 41, titleRu: "Божественная комедия", author: "Данте Алигьери", year: 1320, genres: ["классика", "поэзия"], price: 500, description: "Путешествие через Ад, Чистилище и Рай.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Данте" },
-    { id: 42, titleRu: "Фауст", author: "Иоганн Гёте", year: 1808, genres: ["классика", "драма"], price: 400, description: "Ученый продает душу дьяволу ради знаний.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Фауст" },
-    { id: 43, titleRu: "Гамлет", author: "Уильям Шекспир", year: 1603, genres: ["классика", "драма"], price: 250, description: "Принц мстит за отца.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Шекспир" },
-    { id: 44, titleRu: "Ромео и Джульетта", author: "Уильям Шекспир", year: 1597, genres: ["классика", "драма"], price: 250, description: "Трагическая любовь юноши и девушки из враждующих семей.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Ромео" },
-    { id: 45, titleRu: "Отверженные", author: "Виктор Гюго", year: 1862, genres: ["классика", "драма"], price: 600, description: "Жизнь Жана Вальжана, беглого каторжника.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Гюго" },
-    { id: 46, titleRu: "Собор Парижской Богоматери", author: "Виктор Гюго", year: 1831, genres: ["классика", "драма"], price: 450, description: "История цыганки Эсмеральды и звонаря Квазимодо.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Гюго" },
-    { id: 47, titleRu: "Красное и черное", author: "Стендаль", year: 1830, genres: ["классика", "драма"], price: 380, description: "Карьера и любовь Жюльена Сореля.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Стендаль" },
-    { id: 48, titleRu: "Госпожа Бовари", author: "Гюстав Флобер", year: 1856, genres: ["классика", "драма"], price: 340, description: "Провинциальная жена врача ищет красивой жизни.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Флобер" },
-    { id: 49, titleRu: "Милый друг", author: "Ги де Мопассан", year: 1885, genres: ["классика", "драма"], price: 320, description: "Карьерист Жорж Дюруа покоряет Париж.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Мопассан" },
-    { id: 50, titleRu: "Заводной апельсин", author: "Энтони Берджесс", year: 1962, genres: ["классика", "дистопия"], price: 300, description: "История подростка-садиста и его лечения.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Берджесс" },
-
-    // === СОВРЕМЕННЫЕ БЕСТСЕЛЛЕРЫ (100 книг, часть 1) ===
-    { id: 51, titleRu: "Гарри Поттер и Философский камень", author: "Джоан Роулинг", year: 1997, genres: ["бестселлер", "фэнтези"], price: 500, description: "Мальчик узнает, что он волшебник.", coverUrl: "https://placehold.co/200x300/ffcc00/333333?text=ГарриПоттер" },
-    { id: 52, titleRu: "Игра престолов", author: "Джордж Мартин", year: 1996, genres: ["бестселлер", "фэнтези"], price: 600, description: "Борьба за железный трон Вестероса.", coverUrl: "https://placehold.co/200x300/990000/ffffff?text=ИграПрестолов" },
-    { id: 53, titleRu: "Код да Винчи", author: "Дэн Браун", year: 2003, genres: ["бестселлер", "детектив"], price: 450, description: "Расследование убийства в Лувре.", coverUrl: "https://placehold.co/200x300/003366/ffffff?text=Браун" },
-    { id: 54, titleRu: "Сумерки", author: "Стефани Майер", year: 2005, genres: ["бестселлер", "романтика"], price: 400, description: "Любовь девушки и вампира.", coverUrl: "https://placehold.co/200x300/000000/ffffff?text=Сумерки" },
-    { id: 55, titleRu: "Голодные игры", author: "Сьюзен Коллинз", year: 2008, genres: ["бестселлер", "антиутопия"], price: 420, description: "Смертельное шоу на выживание.", coverUrl: "https://placehold.co/200x300/ff6600/000000?text=ГолодныеИгры" },
-    { id: 56, titleRu: "Алхимик", author: "Пауло Коэльо", year: 1988, genres: ["бестселлер", "философия"], price: 350, description: "Путешествие пастуха за сокровищами.", coverUrl: "https://placehold.co/200x300/ffcc00/000000?text=Алхимик" },
-    { id: 57, titleRu: "Девушка с татуировкой дракона", author: "Стиг Ларссон", year: 2005, genres: ["бестселлер", "детектив"], price: 480, description: "Журналист и хакерша расследуют исчезновение.", coverUrl: "https://placehold.co/200x300/000000/cc0000?text=Ларссон" },
-    { id: 58, titleRu: "Марсианин", author: "Энди Вейер", year: 2011, genres: ["бестселлер", "фантастика"], price: 460, description: "Астронавт выживает один на Марсе.", coverUrl: "https://placehold.co/200x300/cc3300/ffffff?text=Марсианин" },
-    { id: 59, titleRu: "Исчезнувшая", author: "Гиллиан Флинн", year: 2012, genres: ["бестселлер", "триллер"], price: 440, description: "Жена исчезает в годовщину свадьбы.", coverUrl: "https://placehold.co/200x300/000000/ffffff?text=Исчезнувшая" },
-    { id: 60, titleRu: "Оно", author: "Стивен Кинг", year: 1986, genres: ["бестселлер", "ужасы"], price: 550, description: "Клоун убивает детей в городке Дерри.", coverUrl: "https://placehold.co/200x300/990000/ffffff?text=Оно" },
-    { id: 61, titleRu: "Сияние", author: "Стивен Кинг", year: 1977, genres: ["бестселлер", "ужасы"], price: 500, description: "Семья смотрителя в отеле с призраками.", coverUrl: "https://placehold.co/200x300/990000/ffffff?text=Сияние" },
-    { id: 62, titleRu: "Зеленая миля", author: "Стивен Кинг", year: 1996, genres: ["бестселлер", "драма"], price: 480, description: "Чудеса в тюрьме для смертников.", coverUrl: "https://placehold.co/200x300/003300/ffffff?text=ЗеленаяМиля" },
-    { id: 63, titleRu: "Бойцовский клуб", author: "Чак Паланик", year: 1996, genres: ["бестселлер", "триллер"], price: 400, description: "Офисный клерк создает подпольный клуб.", coverUrl: "https://placehold.co/200x300/cc0066/ffffff?text=БойцовскийКлуб" },
-    { id: 64, titleRu: "Виноваты звезды", author: "Джон Грин", year: 2012, genres: ["бестселлер", "романтика"], price: 380, description: "Любовь двух подростков с раком.", coverUrl: "https://placehold.co/200x300/00ccff/ffffff?text=ВиноватыЗвезды" },
-    { id: 65, titleRu: "Бегущий в лабиринте", author: "Джеймс дэшнер", year: 2009, genres: ["бестселлер", "антиутопия"], price: 400, description: "Подростки пытаются выбраться из лабиринта.", coverUrl: "https://placehold.co/200x300/333333/00cc00?text=Лабиринт" },
-    { id: 66, titleRu: "Перси Джексон", author: "Рик Риордан", year: 2005, genres: ["бестселлер", "фэнтези"], price: 420, description: "Сын Посейдона в современном мире.", coverUrl: "https://placehold.co/200x300/0066cc/ffffff?text=Перси" },
-    { id: 67, titleRu: "Дивергент", author: "Вероника Рот", year: 2011, genres: ["бестселлер", "антиутопия"], price: 400, description: "Общество разделено на фракции.", coverUrl: "https://placehold.co/200x300/000000/ffff00?text=Дивергент" },
-    { id: 68, titleRu: "Метро 2033", author: "Дмитрий Глуховский", year: 2005, genres: ["бестселлер", "фантастика"], price: 450, description: "Выжившие в московском метро после ядерной войны.", coverUrl: "https://placehold.co/200x300/333333/ff0000?text=Метро2033" },
-    { id: 69, titleRu: "Ночной Дозор", author: "Сергей Лукьяненко", year: 1998, genres: ["бестселлер", "фэнтези"], price: 400, description: "Битва светлых и темных иных в Москве.", coverUrl: "https://placehold.co/200x300/000066/ffffff?text=Дозор" },
-    { id: 70, titleRu: "Шантарам", author: "Грегори Дэвид Робертс", year: 2003, genres: ["бестселлер", "роман"], price: 600, description: "Приключения беглого преступника в Индии.", coverUrl: "https://placehold.co/200x300/cc6600/ffffff?text=Шантарам" },
-    { id: 71, titleRu: "Есть, молиться, любить", author: "Элизабет Гилберт", year: 2006, genres: ["бестселлер", "биография"], price: 350, description: "Женщина ищет счастье в Италии, Индии и Индонезии.", coverUrl: "https://placehold.co/200x300/ff99cc/ffffff?text=Гилберт" },
-    { id: 72, titleRu: "Богатый папа, бедный папа", author: "Роберт Кийосаки", year: 1997, genres: ["бестселлер", "бизнес"], price: 400, description: "Секреты финансовой грамотности.", coverUrl: "https://placehold.co/200x300/330066/ffffff?text=Кийосаки" },
-    { id: 73, titleRu: "7 навыков высокоэффективных людей", author: "Стивен Кови", year: 1989, genres: ["бестселлер", "саморазвитие"], price: 450, description: "Принципы личной эффективности.", coverUrl: "https://placehold.co/200x300/cccccc/000000?text=Кови" },
-    { id: 74, titleRu: "Тонкое искусство пофигизма", author: "Марк Мэнсон", year: 2016, genres: ["бестселлер", "психология"], price: 380, description: "Как перестать беспокоиться и начать жить.", coverUrl: "https://placehold.co/200x300/ff6600/ffffff?text=Пофигизм" },
-    { id: 75, titleRu: "Sapiens: Краткая история человечества", author: "Юваль Ной Харари", year: 2011, genres: ["бестселлер", "история"], price: 550, description: "Как человек разумный покорил мир.", coverUrl: "https://placehold.co/200x300/ffffff/000000?text=Sapiens" },
-    { id: 76, titleRu: "Атлант расправил плечи", author: "Айн Рэнд", year: 1957, genres: ["бестселлер", "философия"], price: 700, description: "Антиутопия о социализме и капитализме.", coverUrl: "https://placehold.co/200x300/003366/ffffff?text=Атлант" },
-    { id: 77, titleRu: "Крестный отец", author: "Марио Пьюзо", year: 1969, genres: ["бестселлер", "криминал"], price: 450, description: "История мафиозного клана Корлеоне.", coverUrl: "https://placehold.co/200x300/000000/ffffff?text=КрестныйОтец" },
-    { id: 78, titleRu: "Прислуга", author: "Кэтрин Стокетт", year: 2009, genres: ["бестселлер", "драма"], price: 380, description: "Жизнь темнокожих служанок на юге США.", coverUrl: "https://placehold.co/200x300/ffffcc/000000?text=Прислуга" },
-    { id: 79, titleRu: "Дневник памяти", author: "Николас Спаркс", year: 1996, genres: ["бестселлер", "романтика"], price: 350, description: "Трогательная история любви длиною в жизнь.", coverUrl: "https://placehold.co/200x300/ffcccc/000000?text=Дневник" },
-    { id: 80, titleRu: "50 оттенков серого", author: "Э. Л. Джеймс", year: 2011, genres: ["бестселлер", "романтика"], price: 300, description: "Студентка и миллиардер.", coverUrl: "https://placehold.co/200x300/666666/ffffff?text=50оттенков" },
-    { id: 81, titleRu: "Жизнь Пи", author: "Янн Мартел", year: 2001, genres: ["бестселлер", "приключения"], price: 380, description: "Мальчик и тигр в одной лодке.", coverUrl: "https://placehold.co/200x300/0099ff/ffffff?text=ЖизньПи" },
-    { id: 82, titleRu: "Парфюмер", author: "Патрик Зюскинд", year: 1985, genres: ["бестселлер", "триллер"], price: 360, description: "Гениальный нюхач убивает ради аромата.", coverUrl: "https://placehold.co/200x300/996633/ffffff?text=Парфюмер" },
-    { id: 83, titleRu: "Норвежский лес", author: "Харуки Мураками", year: 1987, genres: ["бестселлер", "драма"], price: 400, description: "История любви и потерь в Токио 60-х.", coverUrl: "https://placehold.co/200x300/006600/ffffff?text=Мураками" },
-    { id: 84, titleRu: "11/22/63", author: "Стивен Кинг", year: 2011, genres: ["бестселлер", "фантастика"], price: 550, description: "Учитель путешествует в прошлое, чтобы спасти Кеннеди.", coverUrl: "https://placehold.co/200x300/990000/ffffff?text=112263" },
-    { id: 85, titleRu: "Американские боги", author: "Нил Гейман", year: 2001, genres: ["бестселлер", "фэнтези"], price: 450, description: "Война старых и новых богов.", coverUrl: "https://placehold.co/200x300/000000/ff0000?text=Гейман" },
-    { id: 86, titleRu: "Благие знамения", author: "Терри Пратчетт, Нил Гейман", year: 1990, genres: ["бестселлер", "фэнтези"], price: 420, description: "Ангел и демон пытаются предотвратить апокалипсис.", coverUrl: "https://placehold.co/200x300/ffffff/000000?text=Знамения" },
-    { id: 87, titleRu: "Цветы для Элджернона", author: "Дэниел Киз", year: 1966, genres: ["бестселлер", "фантастика"], price: 360, description: "Умственно отсталый становится гением после операции.", coverUrl: "https://placehold.co/200x300/ffff00/000000?text=Элджернон" },
-    { id: 88, titleRu: "Мемуары гейши", author: "Артур Голден", year: 1997, genres: ["бестселлер", "роман"], price: 400, description: "Жизнь гейши в Киото до и после войны.", coverUrl: "https://placehold.co/200x300/ffccff/000000?text=Гейша" },
-    { id: 89, titleRu: "Книжный вор", author: "Маркус Зусак", year: 2005, genres: ["бестселлер", "драма"], price: 380, description: "Девочка в нацистской Германии ворует книги.", coverUrl: "https://placehold.co/200x300/333333/ffffff?text=КнижныйВор" },
-    { id: 90, titleRu: "Большая маленькая ложь", author: "Лиана Мориарти", year: 2014, genres: ["бестселлер", "детектив"], price: 370, description: "Тайны трех матерей в маленьком городке.", coverUrl: "https://placehold.co/200x300/9999ff/000000?text=Ложь" },
-    { id: 91, titleRu: "Поющие в терновнике", author: "Колин Маккалоу", year: 1977, genres: ["бестселлер", "романтика"], price: 450, description: "Запретная любовь священника и прихожанки.", coverUrl: "https://placehold.co/200x300/ff9999/000000?text=Терновник" },
-    { id: 92, titleRu: "Ангелы и демоны", author: "Дэн Браун", year: 2000, genres: ["бестселлер", "детектив"], price: 440, description: "Профессор Лэнгдон против иллюминатов.", coverUrl: "https://placehold.co/200x300/660000/ffffff?text=Ангелы" },
-    { id: 93, titleRu: "Унесенные ветром", author: "Маргарет Митчелл", year: 1936, genres: ["бестселлер", "роман"], price: 500, description: "Скарлетт О'Хара во время Гражданской войны.", coverUrl: "https://placehold.co/200x300/993300/ffffff?text=Унесенные" },
-    { id: 94, titleRu: "До встречи с тобой", author: "Джоджо Мойес", year: 2012, genres: ["бестселлер", "романтика"], price: 340, description: "Сиделка влюбляется в парализованного парня.", coverUrl: "https://placehold.co/200x300/00ccff/000000?text=ДоВстречи" },
-    { id: 95, titleRu: "Тень ветра", author: "Карлос Руис Сафон", year: 2001, genres: ["бестселлер", "мистика"], price: 410, description: "Таинственная книга меняет жизнь мальчика.", coverUrl: "https://placehold.co/200x300/333366/ffffff?text=ТеньВетра" },
-    { id: 96, titleRu: "Приключения Шерлока Холмса", author: "Артур Конан Дойл", year: 1892, genres: ["бестселлер", "детектив"], price: 390, description: "Сборник рассказов о сыщике.", coverUrl: "https://placehold.co/200x300/666666/ffffff?text=Холмс" },
-    { id: 97, titleRu: "Зов Ктулху", author: "Говард Лавкрафт", year: 1928, genres: ["бестселлер", "ужасы"], price: 300, description: "Древнее божество спит в океане.", coverUrl: "https://placehold.co/200x300/003300/ffffff?text=Ктулху" },
-    { id: 98, titleRu: "Автостопом по галактике", author: "Дуглас Адамс", year: 1979, genres: ["бестселлер", "фантастика"], price: 350, description: "Земля уничтожена, чтобы проложить шоссе.", coverUrl: "https://placehold.co/200x300/000099/ffffff?text=Автостоп" },
-    { id: 99, titleRu: "Дюна", author: "Фрэнк Герберт", year: 1965, genres: ["бестселлер", "фантастика"], price: 600, description: "Политика и религия на пустынной планете Арракис.", coverUrl: "https://placehold.co/200x300/cc9900/000000?text=Дюна" },
-    { id: 100, titleRu: "Гроза", author: "Александр Островский", year: 1859, genres: ["бестселлер", "драма"], price: 250, description: "Трагедия Катерины в купеческой семье.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Гроза" },
-    { id: 101, titleRu: "Обломов", author: "Иван Гончаров", year: 1859, genres: ["бестселлер", "классика"], price: 300, description: "Лень и апатия помещика Обломова.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Обломов" },
-    { id: 102, titleRu: "Собачье сердце", author: "Михаил Булгаков", year: 1925, genres: ["бестселлер", "сатира"], price: 320, description: "Превращение собаки в человека.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=СобачьеСердце" },
-    { id: 103, titleRu: "Белая гвардия", author: "Михаил Булгаков", year: 1925, genres: ["бестселлер", "исторический"], price: 360, description: "Судьба семьи Турбиных в гражданскую войну.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=БелаяГвардия" },
-    { id: 104, titleRu: "Тихий Дон", author: "Михаил Шолохов", year: 1928, genres: ["бестселлер", "эпопея"], price: 600, description: "Жизнь донского казачества в годы революции.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=ТихийДон" },
-    { id: 105, titleRu: "Доктор Живаго", author: "Борис Пастернак", year: 1957, genres: ["бестселлер", "драма"], price: 480, description: "Судьба интеллигенции в революции.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Живаго" },
-    { id: 106, titleRu: "Архипелаг ГУЛАГ", author: "Александр Солженицын", year: 1973, genres: ["бестселлер", "документальный"], price: 600, description: "Исследование советской лагерной системы.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=ГУЛАГ" },
-    { id: 107, titleRu: "В списках не значился", author: "Борис Васильев", year: 1974, genres: ["бестселлер", "военный"], price: 280, description: "Оборона Брестской крепости.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Васильев" },
-    { id: 108, titleRu: "А зори здесь тихие...", author: "Борис Васильев", year: 1969, genres: ["бестселлер", "военный"], price: 270, description: "Пять девушек-зенитчиц против диверсантов.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Зори" },
-    { id: 109, titleRu: "Судьба человека", author: "Михаил Шолохов", year: 1956, genres: ["бестселлер", "военный"], price: 250, description: "Русский солдат проходит через плен и потери.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Судьба" },
-    { id: 110, titleRu: "Одиссея капитана Блада", author: "Рафаэль Сабатини", year: 1922, genres: ["бестселлер", "приключения"], price: 320, description: "Врач становится пиратом поневоле.", coverUrl: "https://placehold.co/200x300/0066cc/ffffff?text=Блад" },
-    { id: 111, titleRu: "Остров сокровищ", author: "Роберт Льюис Стивенсон", year: 1883, genres: ["бестселлер", "приключения"], price: 300, description: "Поиск пиратского клада.", coverUrl: "https://placehold.co/200x300/996600/ffffff?text=Остров" },
-    { id: 112, titleRu: "Робинзон Крузо", author: "Даниэль Дефо", year: 1719, genres: ["бестселлер", "приключения"], price: 290, description: "Выживание на необитаемом острове.", coverUrl: "https://placehold.co/200x300/669900/ffffff?text=Робинзон" },
-    { id: 113, titleRu: "Вокруг света за 80 дней", author: "Жюль Верн", year: 1873, genres: ["бестселлер", "приключения"], price: 310, description: "Пари Филеаса Фогга.", coverUrl: "https://placehold.co/200x300/cc3300/ffffff?text=80дней" },
-    { id: 114, titleRu: "Дети капитана Гранта", author: "Жюль Верн", year: 1868, genres: ["бестселлер", "приключения"], price: 350, description: "Путешествие вдоль 37-й параллели.", coverUrl: "https://placehold.co/200x300/0033cc/ffffff?text=Грант" },
-    { id: 115, titleRu: "Всадник без головы", author: "Майн Рид", year: 1865, genres: ["бестселлер", "вестерн"], price: 330, description: "Таинственное убийство в Техасе.", coverUrl: "https://placehold.co/200x300/990000/ffffff?text=Всадник" },
-    { id: 116, titleRu: "Сердца трех", author: "Джек Лондон", year: 1920, genres: ["бестселлер", "приключения"], price: 340, description: "Поиск сокровищ майя.", coverUrl: "https://placehold.co/200x300/ffcc00/000000?text=СердцаТрех" },
-    { id: 117, titleRu: "Мартин Иден", author: "Джек Лондон", year: 1909, genres: ["бестселлер", "драма"], price: 360, description: "Моряк становится писателем ради любви.", coverUrl: "https://placehold.co/200x300/000066/ffffff?text=МартинИден" },
-    { id: 118, titleRu: "Белый клык", author: "Джек Лондон", year: 1906, genres: ["бестселлер", "приключения"], price: 300, description: "Жизнь волка-собаки на Аляске.", coverUrl: "https://placehold.co/200x300/cccccc/000000?text=БелыйКлык" },
-    { id: 119, titleRu: "Человек-амфибия", author: "Александр Беляев", year: 1928, genres: ["бестселлер", "фантастика"], price: 280, description: "Юноша с жабрами акулы.", coverUrl: "https://placehold.co/200x300/00ccff/000000?text=Амфибия" },
-    { id: 120, titleRu: "Аэлита", author: "Алексей Толстой", year: 1923, genres: ["бестселлер", "фантастика"], price: 290, description: "Путешествие на Марс.", coverUrl: "https://placehold.co/200x300/ff3300/ffffff?text=Аэлита" },
-    { id: 121, titleRu: "Гиперболоид инженера Гарина", author: "Алексей Толстой", year: 1927, genres: ["бестселлер", "фантастика"], price: 320, description: "Изобретение смертельного луча.", coverUrl: "https://placehold.co/200x300/ffff00/000000?text=Гарин" },
-    { id: 122, titleRu: "Понедельник начинается в субботу", author: "Братья Стругацкие", year: 1965, genres: ["бестселлер", "фантастика"], price: 350, description: "Программист попадает в НИИ Чародейства и Волшебства.", coverUrl: "https://placehold.co/200x300/6600cc/ffffff?text=Понедельник" },
-    { id: 123, titleRu: "Трудно быть богом", author: "Братья Стругацкие", year: 1964, genres: ["бестселлер", "фантастика"], price: 370, description: "Землянин на планете, застрявшей в средневековье.", coverUrl: "https://placehold.co/200x300/660000/ffffff?text=Бог" },
-    { id: 124, titleRu: "Пикник на обочине", author: "Братья Стругацкие", year: 1972, genres: ["бестселлер", "фантастика"], price: 380, description: "Сталкеры в Зоне Посещения.", coverUrl: "https://placehold.co/200x300/333333/00ff00?text=Пикник" },
-    { id: 125, titleRu: "Москва-Петушки", author: "Венедикт Ерофеев", year: 1973, genres: ["бестселлер", "постмодернизм"], price: 300, description: "Пьяное путешествие на электричке.", coverUrl: "https://placehold.co/200x300/cccccc/000000?text=Петушки" },
-    { id: 126, titleRu: "Generation П", author: "Виктор Пелевин", year: 1999, genres: ["бестселлер", "сатира"], price: 400, description: "Рекламщик Вавилен Татарский в 90-е.", coverUrl: "https://placehold.co/200x300/ffff00/000000?text=Пелевин" },
-    { id: 127, titleRu: "Чапаев и Пустота", author: "Виктор Пелевин", year: 1996, genres: ["бестселлер", "постмодернизм"], price: 420, description: "Поэт в психбольнице и в гражданской войне.", coverUrl: "https://placehold.co/200x300/ff0000/ffffff?text=Пелевин" },
-    { id: 128, titleRu: "Географ глобус пропил", author: "Алексей Иванов", year: 1995, genres: ["бестселлер", "драма"], price: 340, description: "Учитель географии и его поход с учениками.", coverUrl: "https://placehold.co/200x300/00cc66/ffffff?text=Географ" },
-    { id: 129, titleRu: "Зулейха открывает глаза", author: "Гузель Яхина", year: 2015, genres: ["бестселлер", "исторический"], price: 450, description: "Раскулачивание и ссылка в Сибирь.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Зулейха" },
-    { id: 130, titleRu: "Лавр", author: "Евгений Водолазкин", year: 2012, genres: ["бестселлер", "исторический"], price: 480, description: "Средневековый врач-целитель.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Лавр" },
-
-    // === ЕЩЕ БЕСТСЕЛЛЕРЫ (до 150) ===
-    { id: 131, titleRu: "Вторая жизнь Уве", author: "Фредрик Бакман", year: 2012, genres: ["бестселлер", "драма"], price: 360, description: "Ворчливый старик и его новые соседи.", coverUrl: "https://placehold.co/200x300/003366/ffffff?text=Уве" },
-    { id: 132, titleRu: "Есть, молиться, любить", author: "Элизабет Гилберт", year: 2006, genres: ["бестселлер", "роман"], price: 340, description: "Поиск себя.", coverUrl: "https://placehold.co/200x300/ffccff/000000?text=Гилберт" },
-    { id: 133, titleRu: "Щегол", author: "Донна Тартт", year: 2013, genres: ["бестселлер", "драма"], price: 650, description: "Мальчик выживает после теракта в музее.", coverUrl: "https://placehold.co/200x300/ffcc00/000000?text=Щегол" },
-    { id: 134, titleRu: "Искра жизни", author: "Эрих Мария Ремарк", year: 1952, genres: ["бестселлер", "военный"], price: 350, description: "Жизнь в концлагере.", coverUrl: "https://placehold.co/200x300/333333/ffffff?text=Ремарк" },
-    { id: 135, titleRu: "Триумфальная арка", author: "Эрих Мария Ремарк", year: 1945, genres: ["бестселлер", "драма"], price: 360, description: "Эмигрант в Париже перед войной.", coverUrl: "https://placehold.co/200x300/333333/ffffff?text=Ремарк" },
-    { id: 136, titleRu: "Кладбище домашних животных", author: "Стивен Кинг", year: 1983, genres: ["бестселлер", "ужасы"], price: 400, description: "Мертвые возвращаются.", coverUrl: "https://placehold.co/200x300/000000/ff0000?text=Кладбище" },
-    { id: 137, titleRu: "Мизери", author: "Стивен Кинг", year: 1987, genres: ["бестселлер", "триллер"], price: 380, description: "Писатель в плену у безумной фанатки.", coverUrl: "https://placehold.co/200x300/000000/ff0000?text=Мизери" },
-    { id: 138, titleRu: "Кэрри", author: "Стивен Кинг", year: 1974, genres: ["бестселлер", "ужасы"], price: 350, description: "Девочка с телекинезом мстит одноклассникам.", coverUrl: "https://placehold.co/200x300/cc0000/ffffff?text=Кэрри" },
-    { id: 139, titleRu: "Инферно", author: "Дэн Браун", year: 2013, genres: ["бестселлер", "детектив"], price: 430, description: "Лэнгдон и ад Данте.", coverUrl: "https://placehold.co/200x300/cc3300/ffffff?text=Инферно" },
-    { id: 140, titleRu: "Хроники Нарнии", author: "К. С. Льюис", year: 1950, genres: ["бестселлер", "фэнтези"], price: 450, description: "Дети попадают в волшебную страну через шкаф.", coverUrl: "https://placehold.co/200x300/3399ff/ffffff?text=Нарния" },
-    { id: 141, titleRu: "Золотой компас", author: "Филип Пулман", year: 1995, genres: ["бестселлер", "фэнтези"], price: 400, description: "Девочка Лира и её деймон.", coverUrl: "https://placehold.co/200x300/ffcc00/000000?text=Компас" },
-    { id: 142, titleRu: "Дом странных детей", author: "Ренсом Риггз", year: 2011, genres: ["бестселлер", "фэнтези"], price: 370, description: "Приют для детей со сверхспособностями.", coverUrl: "https://placehold.co/200x300/333333/ffffff?text=Дом" },
-    { id: 143, titleRu: "Призрак оперы", author: "Гастон Леру", year: 1910, genres: ["бестселлер", "мистика"], price: 330, description: "Таинственный голос в парижской опере.", coverUrl: "https://placehold.co/200x300/000000/ffffff?text=Призрак" },
-    { id: 144, titleRu: "Кредо убийцы", author: "Оливер Боуден", year: 2009, genres: ["бестселлер", "приключения"], price: 350, description: "Братство ассасинов против тамплиеров.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Assassin" },
-    { id: 145, titleRu: "Ведьмак: Последнее желание", author: "Анджей Сапковский", year: 1993, genres: ["бестселлер", "фэнтези"], price: 450, description: "Ведьмак Геральт из Ривии.", coverUrl: "https://placehold.co/200x300/330000/ffffff?text=Ведьмак" },
-    { id: 146, titleRu: "Кровь эльфов", author: "Анджей Сапковский", year: 1994, genres: ["бестселлер", "фэнтези"], price: 450, description: "Начало саги о Цири.", coverUrl: "https://placehold.co/200x300/330000/ffffff?text=Эльфы" },
-    { id: 147, titleRu: "Гарри Поттер и Тайная комната", author: "Джоан Роулинг", year: 1998, genres: ["бестселлер", "фэнтези"], price: 500, description: "Второй год в Хогвартсе.", coverUrl: "https://placehold.co/200x300/ffcc00/333333?text=Гарри" },
-    { id: 148, titleRu: "Гарри Поттер и Узник Азкабана", author: "Джоан Роулинг", year: 1999, genres: ["бестселлер", "фэнтези"], price: 500, description: "Сириус Блэк сбежал.", coverUrl: "https://placehold.co/200x300/ffcc00/333333?text=Гарри" },
-    { id: 149, titleRu: "Гарри Поттер и Кубок огня", author: "Джоан Роулинг", year: 2000, genres: ["бестселлер", "фэнтези"], price: 550, description: "Турнир трех волшебников.", coverUrl: "https://placehold.co/200x300/ffcc00/333333?text=Гарри" },
-    { id: 150, titleRu: "Гарри Поттер и Орден Феникса", author: "Джоан Роулинг", year: 2003, genres: ["бестселлер", "фэнтези"], price: 600, description: "Возвращение Волан-де-Морта.", coverUrl: "https://placehold.co/200x300/ffcc00/333333?text=Гарри" },
-    // === СОВРЕМЕННЫЙ НОНФИКШН (50 книг) ===
-    { id: 151, titleRu: "Sapiens: Краткая история человечества", author: "Юваль Ной Харари", year: 2011, genres: ["нонфикшн", "история"], price: 550, description: "Как человек разумный покорил мир.", coverUrl: "https://placehold.co/200x300/ffffff/000000?text=Sapiens" },
-    { id: 152, titleRu: "Homo Deus", author: "Юваль Ной Харари", year: 2015, genres: ["нонфикшн", "футурология"], price: 550, description: "Краткая история будущего.", coverUrl: "https://placehold.co/200x300/ffffff/000000?text=HomoDeus" },
-    { id: 153, titleRu: "Думай медленно... решай быстро", author: "Даниел Канеман", year: 2011, genres: ["нонфикшн", "психология"], price: 600, description: "Как работает наше мышление.", coverUrl: "https://placehold.co/200x300/cccccc/000000?text=Канеман" },
-    { id: 154, titleRu: "Краткая история времени", author: "Стивен Хокинг", year: 1988, genres: ["нонфикшн", "наука"], price: 450, description: "О черных дырах и вселенной.", coverUrl: "https://placehold.co/200x300/000066/ffffff?text=Хокинг" },
-    { id: 155, titleRu: "Богатый папа, бедный папа", author: "Роберт Кийосаки", year: 1997, genres: ["нонфикшн", "бизнес"], price: 400, description: "Финансовая грамотность.", coverUrl: "https://placehold.co/200x300/000000/ffffff?text=Кийосаки" },
-    { id: 156, titleRu: "Тонкое искусство пофигизма", author: "Марк Мэнсон", year: 2016, genres: ["нонфикшн", "саморазвитие"], price: 380, description: "Парадоксальный способ жить счастливо.", coverUrl: "https://placehold.co/200x300/ff6600/ffffff?text=Пофигизм" },
-    { id: 157, titleRu: "Магия утра", author: "Хэл Элрод", year: 2012, genres: ["нонфикшн", "саморазвитие"], price: 350, description: "Как первый час дня определяет ваш успех.", coverUrl: "https://placehold.co/200x300/ffff00/000000?text=Утро" },
-    { id: 158, titleRu: "НИ СЫ", author: "Джен Синсеро", year: 2013, genres: ["нонфикшн", "саморазвитие"], price: 360, description: "Будь уверен в своих силах.", coverUrl: "https://placehold.co/200x300/ffff00/000000?text=НиСы" },
-    { id: 159, titleRu: "Эссенциализм", author: "Грег МакКеон", year: 2014, genres: ["нонфикшн", "саморазвитие"], price: 400, description: "Путь к простоте.", coverUrl: "https://placehold.co/200x300/ffffff/000000?text=Эссенциализм" },
-    { id: 160, titleRu: "Атомные привычки", author: "Джеймс Клир", year: 2018, genres: ["нонфикшн", "саморазвитие"], price: 420, description: "Как маленькие шаги меняют жизнь.", coverUrl: "https://placehold.co/200x300/333333/ffffff?text=Привычки" },
-    { id: 161, titleRu: "От нуля к единице", author: "Питер Тиль", year: 2014, genres: ["нонфикшн", "бизнес"], price: 450, description: "Как создать стартап, который изменит будущее.", coverUrl: "https://placehold.co/200x300/000066/ffffff?text=Тиль" },
-    { id: 162, titleRu: "Черный лебедь", author: "Нассим Талеб", year: 2007, genres: ["нонфикшн", "философия"], price: 500, description: "Под знаком непредсказуемости.", coverUrl: "https://placehold.co/200x300/000000/ffffff?text=Лебедь" },
-    { id: 163, titleRu: "Антихрупкость", author: "Нассим Талеб", year: 2012, genres: ["нонфикшн", "философия"], price: 550, description: "Как извлечь выгоду из хаоса.", coverUrl: "https://placehold.co/200x300/000000/ffffff?text=Антихрупкость" },
-    { id: 164, titleRu: "Пиши, сокращай", author: "Максим Ильяхов", year: 2016, genres: ["нонфикшн", "копирайтинг"], price: 400, description: "Как создавать сильный текст.", coverUrl: "https://placehold.co/200x300/ff6600/000000?text=Пиши" },
-    { id: 165, titleRu: "Карта культурных различий", author: "Эрин Мейер", year: 2014, genres: ["нонфикшн", "бизнес"], price: 380, description: "Как люди мыслят и работают в разных странах.", coverUrl: "https://placehold.co/200x300/cccccc/000000?text=Карта" },
-    { id: 166, titleRu: "Принципы", author: "Рэй Далио", year: 2017, genres: ["нонфикшн", "бизнес"], price: 600, description: "Жизнь и работа.", coverUrl: "https://placehold.co/200x300/000000/ffffff?text=Принципы" },
-    { id: 167, titleRu: "Самый богатый человек в Вавилоне", author: "Джордж Клейсон", year: 1926, genres: ["нонфикшн", "финансы"], price: 300, description: "Древние секреты финансового успеха.", coverUrl: "https://placehold.co/200x300/ffcc00/000000?text=Вавилон" },
-    { id: 168, titleRu: "Психология влияния", author: "Роберт Чалдини", year: 1984, genres: ["нонфикшн", "психология"], price: 420, description: "Убеждай и властвуй.", coverUrl: "https://placehold.co/200x300/000099/ffffff?text=Чалдини" },
-    { id: 169, titleRu: "Игры, в которые играют люди", author: "Эрик Берн", year: 1964, genres: ["нонфикшн", "психология"], price: 350, description: "Психология человеческих взаимоотношений.", coverUrl: "https://placehold.co/200x300/cc0000/ffffff?text=Игры" },
-    { id: 170, titleRu: "Люди, которые играют в игры", author: "Эрик Берн", year: 1972, genres: ["нонфикшн", "психология"], price: 350, description: "Психология человеческой судьбы.", coverUrl: "https://placehold.co/200x300/cc0000/ffffff?text=Люди" },
-    { id: 171, titleRu: "Эмоциональный интеллект", author: "Дэниел Гоулман", year: 1995, genres: ["нонфикшн", "психология"], price: 400, description: "Почему он может значить больше, чем IQ.", coverUrl: "https://placehold.co/200x300/00ccff/000000?text=EQ" },
-    { id: 172, titleRu: "Поток", author: "Михай Чиксентмихайи", year: 1990, genres: ["нонфикшн", "психология"], price: 450, description: "Психология оптимального переживания.", coverUrl: "https://placehold.co/200x300/ffff00/000000?text=Поток" },
-    { id: 173, titleRu: "Разумный инвестор", author: "Бенджамин Грэм", year: 1949, genres: ["нонфикшн", "финансы"], price: 500, description: "Полное руководство по стоимостному инвестированию.", coverUrl: "https://placehold.co/200x300/333333/ffffff?text=Инвестор" },
-    { id: 174, titleRu: "Капитал", author: "Карл Маркс", year: 1867, genres: ["нонфикшн", "экономика"], price: 700, description: "Критика политической экономии.", coverUrl: "https://placehold.co/200x300/cc0000/ffffff?text=Капитал" },
-    { id: 175, titleRu: "Государь", author: "Никколо Макиавелли", year: 1532, genres: ["нонфикшн", "политика"], price: 300, description: "Трактат о политике.", coverUrl: "https://placehold.co/200x300/660000/ffffff?text=Государь" },
-    { id: 176, titleRu: "Искусство войны", author: "Сунь-цзы", year: 500, genres: ["нонфикшн", "философия"], price: 250, description: "Древнекитайский трактат о военной стратегии.", coverUrl: "https://placehold.co/200x300/999900/000000?text=Искусство" },
-    { id: 177, titleRu: "Дао дэ цзин", author: "Лао-цзы", year: 400, genres: ["нонфикшн", "философия"], price: 250, description: "Книга пути и достоинства.", coverUrl: "https://placehold.co/200x300/cccccc/000000?text=Дао" },
-    { id: 178, titleRu: "Краткая история всего", author: "Кен Уилбер", year: 1996, genres: ["нонфикшн", "философия"], price: 450, description: "Интегральная философия.", coverUrl: "https://placehold.co/200x300/ffffff/000000?text=Уилбер" },
-    { id: 179, titleRu: "Мозг и душа", author: "Крис Фрит", year: 2007, genres: ["нонфикшн", "наука"], price: 380, description: "Как нервная деятельность формирует наш внутренний мир.", coverUrl: "https://placehold.co/200x300/990099/ffffff?text=Мозг" },
-    { id: 180, titleRu: "Эгоистичный ген", author: "Ричард Докинз", year: 1976, genres: ["нонфикшн", "наука"], price: 400, description: "Эволюция как отбор генов.", coverUrl: "https://placehold.co/200x300/009900/ffffff?text=Ген" },
-    { id: 181, titleRu: "Слепой часовщик", author: "Ричард Докинз", year: 1986, genres: ["нонфикшн", "наука"], price: 400, description: "Как эволюция создает сложность без замысла.", coverUrl: "https://placehold.co/200x300/009900/ffffff?text=Часовщик" },
-    { id: 182, titleRu: "Бог как иллюзия", author: "Ричард Докинз", year: 2006, genres: ["нонфикшн", "философия"], price: 450, description: "Критика религии.", coverUrl: "https://placehold.co/200x300/990000/ffffff?text=Иллюзия" },
-    { id: 183, titleRu: "Космос", author: "Карл Саган", year: 1980, genres: ["нонфикшн", "наука"], price: 500, description: "Эволюция Вселенной и жизни.", coverUrl: "https://placehold.co/200x300/000066/ffffff?text=Космос" },
-    { id: 184, titleRu: "Мир, полный демонов", author: "Карл Саган", year: 1995, genres: ["нонфикшн", "наука"], price: 450, description: "Наука как свеча во тьме.", coverUrl: "https://placehold.co/200x300/000066/ffffff?text=Демоны" },
-    { id: 185, titleRu: "Фейнмановские лекции по физике", author: "Ричард Фейнман", year: 1963, genres: ["нонфикшн", "наука"], price: 1000, description: "Легендарный курс физики.", coverUrl: "https://placehold.co/200x300/cc0000/ffffff?text=Фейнман" },
-    { id: 186, titleRu: "Вы, конечно, шутите, мистер Фейнман!", author: "Ричард Фейнман", year: 1985, genres: ["нонфикшн", "биография"], price: 350, description: "Истории из жизни нобелевского лауреата.", coverUrl: "https://placehold.co/200x300/ffcc00/000000?text=Фейнман" },
-    { id: 187, titleRu: "Красная таблетка", author: "Андрей Курпатов", year: 2018, genres: ["нонфикшн", "психология"], price: 400, description: "Посмотри правде в глаза.", coverUrl: "https://placehold.co/200x300/cc0000/ffffff?text=Таблетка" },
-    { id: 188, titleRu: "Как продать что угодно кому угодно", author: "Джо Джирард", year: 1977, genres: ["нонфикшн", "бизнес"], price: 300, description: "Секреты величайшего продавца。", coverUrl: "https://placehold.co/200x300/009900/ffffff?text=Продажи" },
-    { id: 189, titleRu: "Маркетинг без бюджета", author: "Игорь Манн", year: 2008, genres: ["нонфикшн", "бизнес"], price: 350, description: "Как продвигать бизнес бесплатно.", coverUrl: "https://placehold.co/200x300/9900cc/ffffff?text=Маркетинг" },
-    { id: 190, titleRu: "Клиенты на всю жизнь", author: "Карл Сьюэлл", year: 1990, genres: ["нонфикшн", "бизнес"], price: 380, description: "Как превратить покупателя в партнера.", coverUrl: "https://placehold.co/200x300/00cc00/ffffff?text=Клиенты" },
-    { id: 191, titleRu: "Стив Джобс", author: "Уолтер Айзексон", year: 2011, genres: ["нонфикшн", "биография"], price: 500, description: "Биография основателя Apple.", coverUrl: "https://placehold.co/200x300/e0e0e0/333333?text=Джобс" },
-    { id: 192, titleRu: "Илон Маск", author: "Эшли Вэнс", year: 2015, genres: ["нонфикшн", "биография"], price: 450, description: "Tesla, SpaceX и дорога в будущее.", coverUrl: "https://placehold.co/200x300/000066/ffffff?text=Маск" },
-    { id: 193, titleRu: "Никогда не ешьте в одиночку", author: "Кейт Феррацци", year: 2005, genres: ["нонфикшн", "бизнес"], price: 350, description: "Секреты нетворкинга.", coverUrl: "https://placehold.co/200x300/ff6600/ffffff?text=Нетворкинг" },
-    { id: 194, titleRu: "Думай и богатей", author: "Наполеон Хилл", year: 1937, genres: ["нонфикшн", "саморазвитие"], price: 300, description: "13 шагов к богатству.", coverUrl: "https://placehold.co/200x300/ffff00/000000?text=Хилл" },
-    { id: 195, titleRu: "Пес по имени Мани", author: "Бодо Шефер", year: 2000, genres: ["нонфикшн", "финансы"], price: 280, description: "Финансовая грамотность для детей.", coverUrl: "https://placehold.co/200x300/ffffff/000000?text=Мани" },
-    { id: 196, titleRu: "Путь художника", author: "Джулия Кэмерон", year: 1992, genres: ["нонфикшн", "креативность"], price: 400, description: "Как разбудить в себе творца.", coverUrl: "https://placehold.co/200x300/ff3399/ffffff?text=Художник" },
-    { id: 197, titleRu: "Откровения рекламного агента", author: "Дэвид Огилви", year: 1963, genres: ["нонфикшн", "бизнес"], price: 350, description: "Секреты рекламного бизнеса.", coverUrl: "https://placehold.co/200x300/cc0000/ffffff?text=Огилви" },
-    { id: 198, titleRu: "45 татуировок менеджера", author: "Максим Батырев", year: 2013, genres: ["нонфикшн", "бизнес"], price: 400, description: "Правила российского руководителя.", coverUrl: "https://placehold.co/200x300/000000/ffffff?text=Батырев" },
-    { id: 199, titleRu: "Deadline. Роман об управлении проектами", author: "Том Демарко", year: 1997, genres: ["нонфикшн", "бизнес"], price: 450, description: "Как управлять проектами и не сойти с ума.", coverUrl: "https://placehold.co/200x300/339900/ffffff?text=Deadline" },
-    { id: 200, titleRu: "Джедайские техники", author: "Максим Дорофеев", year: 2017, genres: ["нонфикшн", "саморазвитие"], price: 380, description: "Как воспитать свою обезьяну.", coverUrl: "https://placehold.co/200x300/cccccc/000000?text=Джедай" }
+  {
+    "id": 1,
+    "titleRu": "Преступление и наказание",
+    "author": "Фёдор Достоевский",
+    "year": 1866,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 300,
+    "description": "Студент Раскольников решается на убийство ради теории.",
+    "coverUrl": "covers/1.jpg"
+  },
+  {
+    "id": 2,
+    "titleRu": "Война и мир",
+    "author": "Лев Толстой",
+    "year": 1869,
+    "genres": [
+      "классика",
+      "исторический"
+    ],
+    "price": 500,
+    "description": "Эпопея о жизни русского общества в эпоху войн против Наполеона.",
+    "coverUrl": "covers/2.jpg"
+  },
+  {
+    "id": 3,
+    "titleRu": "Мастер и Маргарита",
+    "author": "Михаил Булгаков",
+    "year": 1967,
+    "genres": [
+      "классика",
+      "мистика"
+    ],
+    "price": 400,
+    "description": "Сатана посещает Москву 30-х годов.",
+    "coverUrl": "covers/3.jpg"
+  },
+  {
+    "id": 4,
+    "titleRu": "Евгений Онегин",
+    "author": "Александр Пушкин",
+    "year": 1833,
+    "genres": [
+      "классика",
+      "поэзия"
+    ],
+    "price": 250,
+    "description": "Роман в стихах о неудавшейся любви.",
+    "coverUrl": "covers/4.jpg"
+  },
+  {
+    "id": 5,
+    "titleRu": "Анна Каренина",
+    "author": "Лев Толстой",
+    "year": 1877,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 350,
+    "description": "Трагическая история любви замужней дамы.",
+    "coverUrl": "covers/5.jpg"
+  },
+  {
+    "id": 6,
+    "titleRu": "Идиот",
+    "author": "Фёдор Достоевский",
+    "year": 1869,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 320,
+    "description": "История князя Мышкина, человека кристальной чистоты.",
+    "coverUrl": "covers/6.jpg"
+  },
+  {
+    "id": 7,
+    "titleRu": "Мертвые души",
+    "author": "Николай Гоголь",
+    "year": 1842,
+    "genres": [
+      "классика",
+      "сатира"
+    ],
+    "price": 280,
+    "description": "Чичиков скупает мертвые души крестьян.",
+    "coverUrl": "covers/7.jpg"
+  },
+  {
+    "id": 8,
+    "titleRu": "Отцы и дети",
+    "author": "Иван Тургенев",
+    "year": 1862,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 260,
+    "description": "Конфликт поколений и нигилизм Базарова.",
+    "coverUrl": "covers/8.jpg"
+  },
+  {
+    "id": 9,
+    "titleRu": "Герой нашего времени",
+    "author": "Михаил Лермонтов",
+    "year": 1840,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 270,
+    "description": "История лишнего человека Печорина.",
+    "coverUrl": "covers/9.jpg"
+  },
+  {
+    "id": 10,
+    "titleRu": "1984",
+    "author": "Джордж Оруэлл",
+    "year": 1949,
+    "genres": [
+      "классика",
+      "антиутопия"
+    ],
+    "price": 350,
+    "description": "Тоталитарное государство следит за каждым.",
+    "coverUrl": "covers/10.jpg"
+  },
+  {
+    "id": 11,
+    "titleRu": "Улисс",
+    "author": "Джеймс Джойс",
+    "year": 1922,
+    "genres": [
+      "классика",
+      "модернизм"
+    ],
+    "price": 600,
+    "description": "Один день из жизни дублинца Леопольда Блума.",
+    "coverUrl": "covers/11.jpg"
+  },
+  {
+    "id": 12,
+    "titleRu": "Лолита",
+    "author": "Владимир Набоков",
+    "year": 1955,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 380,
+    "description": "Скандальная история одержимости взрослого мужчины.",
+    "coverUrl": "covers/12.jpg"
+  },
+  {
+    "id": 13,
+    "titleRu": "Звук и ярость",
+    "author": "Уильям Фолкнер",
+    "year": 1929,
+    "genres": [
+      "классика",
+      "модернизм"
+    ],
+    "price": 400,
+    "description": "Упадок южной аристократической семьи.",
+    "coverUrl": "covers/13.jpg"
+  },
+  {
+    "id": 14,
+    "titleRu": "Над пропастью во ржи",
+    "author": "Джером Сэлинджер",
+    "year": 1951,
+    "genres": [
+      "классика",
+      "роман взросления"
+    ],
+    "price": 300,
+    "description": "Подросток Холден Колфилд бунтует против мира взрослых.",
+    "coverUrl": "covers/14.jpg"
+  },
+  {
+    "id": 15,
+    "titleRu": "Гордость и предубеждение",
+    "author": "Джейн Остин",
+    "year": 1813,
+    "genres": [
+      "классика",
+      "романтика"
+    ],
+    "price": 320,
+    "description": "История любви Элизабет Беннет и мистера Дарси.",
+    "coverUrl": "covers/15.jpg"
+  },
+  {
+    "id": 16,
+    "titleRu": "Великий Гэтсби",
+    "author": "Фрэнсис Скотт Фицджеральд",
+    "year": 1925,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 310,
+    "description": "Блеск и нищета эпохи джаза.",
+    "coverUrl": "covers/16.jpg"
+  },
+  {
+    "id": 17,
+    "titleRu": "Сто лет одиночества",
+    "author": "Габриэль Гарсиа Маркес",
+    "year": 1967,
+    "genres": [
+      "классика",
+      "магический реализм"
+    ],
+    "price": 450,
+    "description": "История рода Буэндиа в городе Макондо.",
+    "coverUrl": "covers/17.jpg"
+  },
+  {
+    "id": 18,
+    "titleRu": "Дон Кихот",
+    "author": "Мигель де Сервантес",
+    "year": 1605,
+    "genres": [
+      "классика",
+      "приключения"
+    ],
+    "price": 500,
+    "description": "Рыцарь печального образа сражается с ветряными мельницами.",
+    "coverUrl": "covers/18.jpg"
+  },
+  {
+    "id": 19,
+    "titleRu": "Моби Дик",
+    "author": "Герман Мелвилл",
+    "year": 1851,
+    "genres": [
+      "классика",
+      "приключения"
+    ],
+    "price": 420,
+    "description": "Охота капитана Ахава на белого кита.",
+    "coverUrl": "covers/19.jpg"
+  },
+  {
+    "id": 20,
+    "titleRu": "Убить пересмешника",
+    "author": "Харпер Ли",
+    "year": 1960,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 330,
+    "description": "Адвокат защищает темнокожего, ложно обвиненного в преступлении.",
+    "coverUrl": "covers/20.jpg"
+  },
+  {
+    "id": 21,
+    "titleRu": "Братья Карамазовы",
+    "author": "Фёдор Достоевский",
+    "year": 1880,
+    "genres": [
+      "классика",
+      "философия"
+    ],
+    "price": 450,
+    "description": "Сложные отношения в семье Карамазовых и вопросы веры.",
+    "coverUrl": "covers/21.jpg"
+  },
+  {
+    "id": 22,
+    "titleRu": "Джейн Эйр",
+    "author": "Шарлотта Бронте",
+    "year": 1847,
+    "genres": [
+      "классика",
+      "романтика"
+    ],
+    "price": 290,
+    "description": "История сироты, ставшей гувернанткой.",
+    "coverUrl": "covers/22.jpg"
+  },
+  {
+    "id": 23,
+    "titleRu": "Грозовой перевал",
+    "author": "Эмили Бронте",
+    "year": 1847,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 290,
+    "description": "Мрачная история любви Хитклиффа и Кэтрин.",
+    "coverUrl": "covers/23.jpg"
+  },
+  {
+    "id": 24,
+    "titleRu": "Приключения Тома Сойера",
+    "author": "Марк Твен",
+    "year": 1876,
+    "genres": [
+      "классика",
+      "приключения"
+    ],
+    "price": 250,
+    "description": "Веселые похождения мальчика на Миссисипи.",
+    "coverUrl": "covers/24.jpg"
+  },
+  {
+    "id": 25,
+    "titleRu": "Алиса в Стране чудес",
+    "author": "Льюис Кэрролл",
+    "year": 1865,
+    "genres": [
+      "классика",
+      "фэнтези"
+    ],
+    "price": 280,
+    "description": "Девочка падает в кроличью нору и попадает в абсурдный мир.",
+    "coverUrl": "covers/25.jpg"
+  },
+  {
+    "id": 26,
+    "titleRu": "Маленький принц",
+    "author": "Антуан де Сент-Экзюпери",
+    "year": 1943,
+    "genres": [
+      "классика",
+      "сказка"
+    ],
+    "price": 220,
+    "description": "Философская сказка о мальчике с другой планеты.",
+    "coverUrl": "covers/26.jpg"
+  },
+  {
+    "id": 27,
+    "titleRu": "Три товарища",
+    "author": "Эрих Мария Ремарк",
+    "year": 1936,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 340,
+    "description": "Дружба и любовь в Германии между войнами.",
+    "coverUrl": "covers/27.jpg"
+  },
+  {
+    "id": 28,
+    "titleRu": "На Западном фронте без перемен",
+    "author": "Эрих Мария Ремарк",
+    "year": 1929,
+    "genres": [
+      "классика",
+      "военный"
+    ],
+    "price": 330,
+    "description": "Ужасы Первой мировой войны глазами солдата.",
+    "coverUrl": "covers/28.jpg"
+  },
+  {
+    "id": 29,
+    "titleRu": "Старик и море",
+    "author": "Эрнест Хемингуэй",
+    "year": 1952,
+    "genres": [
+      "классика",
+      "притча"
+    ],
+    "price": 250,
+    "description": "Борьба старого рыбака с огромной рыбой.",
+    "coverUrl": "covers/29.jpg"
+  },
+  {
+    "id": 30,
+    "titleRu": "Повелитель мух",
+    "author": "Уильям Голдинг",
+    "year": 1954,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 300,
+    "description": "Мальчики на необитаемом острове дичают.",
+    "coverUrl": "covers/30.jpg"
+  },
+  {
+    "id": 31,
+    "titleRu": "О дивный новый мир",
+    "author": "Олдос Хаксли",
+    "year": 1932,
+    "genres": [
+      "классика",
+      "антиутопия"
+    ],
+    "price": 340,
+    "description": "Мир будущего, где люди выращиваются в инкубаторах.",
+    "coverUrl": "covers/31.jpg"
+  },
+  {
+    "id": 32,
+    "titleRu": "451 градус по Фаренгейту",
+    "author": "Рэй Брэдбери",
+    "year": 1953,
+    "genres": [
+      "классика",
+      "фантастика"
+    ],
+    "price": 310,
+    "description": "Мир, где пожарные сжигают книги.",
+    "coverUrl": "covers/32.jpg"
+  },
+  {
+    "id": 33,
+    "titleRu": "Властелин колец",
+    "author": "Дж. Р. Р. Толкин",
+    "year": 1954,
+    "genres": [
+      "классика",
+      "фэнтези"
+    ],
+    "price": 700,
+    "description": "Эпическое путешествие хоббита Фродо.",
+    "coverUrl": "covers/33.jpg"
+  },
+  {
+    "id": 34,
+    "titleRu": "Хоббит",
+    "author": "Дж. Р. Р. Толкин",
+    "year": 1937,
+    "genres": [
+      "классика",
+      "фэнтези"
+    ],
+    "price": 400,
+    "description": "Приключения Бильбо Бэггинса.",
+    "coverUrl": "covers/34.jpg"
+  },
+  {
+    "id": 35,
+    "titleRu": "Граф Монте-Кристо",
+    "author": "Александр Дюма",
+    "year": 1844,
+    "genres": [
+      "классика",
+      "приключения"
+    ],
+    "price": 550,
+    "description": "История мести Эдмона Дантеса.",
+    "coverUrl": "covers/35.jpg"
+  },
+  {
+    "id": 36,
+    "titleRu": "Три мушкетера",
+    "author": "Александр Дюма",
+    "year": 1844,
+    "genres": [
+      "классика",
+      "приключения"
+    ],
+    "price": 450,
+    "description": "Д'Артаньян и его друзья спасают честь королевы.",
+    "coverUrl": "covers/36.jpg"
+  },
+  {
+    "id": 37,
+    "titleRu": "Шерлок Холмс",
+    "author": "Артур Конан Дойл",
+    "year": 1887,
+    "genres": [
+      "классика",
+      "детектив"
+    ],
+    "price": 380,
+    "description": "Приключения гениального сыщика.",
+    "coverUrl": "covers/37.jpg"
+  },
+  {
+    "id": 38,
+    "titleRu": "Дракула",
+    "author": "Брэм Стокер",
+    "year": 1897,
+    "genres": [
+      "классика",
+      "ужасы"
+    ],
+    "price": 300,
+    "description": "Вампир граф Дракула переезжает в Лондон.",
+    "coverUrl": "covers/38.jpg"
+  },
+  {
+    "id": 39,
+    "titleRu": "Франкенштейн",
+    "author": "Мэри Шелли",
+    "year": 1818,
+    "genres": [
+      "классика",
+      "ужасы"
+    ],
+    "price": 280,
+    "description": "Ученый создает живое существо из мертвой материи.",
+    "coverUrl": "covers/39.jpg"
+  },
+  {
+    "id": 40,
+    "titleRu": "Портрет Дориана Грея",
+    "author": "Оскар Уайльд",
+    "year": 1890,
+    "genres": [
+      "классика",
+      "мистика"
+    ],
+    "price": 320,
+    "description": "Портрет молодеет, а его владелец стареет душой.",
+    "coverUrl": "covers/40.jpg"
+  },
+  {
+    "id": 41,
+    "titleRu": "Божественная комедия",
+    "author": "Данте Алигьери",
+    "year": 1320,
+    "genres": [
+      "классика",
+      "поэзия"
+    ],
+    "price": 500,
+    "description": "Путешествие через Ад, Чистилище и Рай.",
+    "coverUrl": "covers/41.jpg"
+  },
+  {
+    "id": 42,
+    "titleRu": "Фауст",
+    "author": "Иоганн Гёте",
+    "year": 1808,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 400,
+    "description": "Ученый продает душу дьяволу ради знаний.",
+    "coverUrl": "covers/42.jpg"
+  },
+  {
+    "id": 43,
+    "titleRu": "Гамлет",
+    "author": "Уильям Шекспир",
+    "year": 1603,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 250,
+    "description": "Принц мстит за отца.",
+    "coverUrl": "covers/43.jpg"
+  },
+  {
+    "id": 44,
+    "titleRu": "Ромео и Джульетта",
+    "author": "Уильям Шекспир",
+    "year": 1597,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 250,
+    "description": "Трагическая любовь юноши и девушки из враждующих семей.",
+    "coverUrl": "covers/44.jpg"
+  },
+  {
+    "id": 45,
+    "titleRu": "Отверженные",
+    "author": "Виктор Гюго",
+    "year": 1862,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 600,
+    "description": "Жизнь Жана Вальжана, беглого каторжника.",
+    "coverUrl": "covers/45.jpg"
+  },
+  {
+    "id": 46,
+    "titleRu": "Собор Парижской Богоматери",
+    "author": "Виктор Гюго",
+    "year": 1831,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 450,
+    "description": "История цыганки Эсмеральды и звонаря Квазимодо.",
+    "coverUrl": "covers/46.jpg"
+  },
+  {
+    "id": 47,
+    "titleRu": "Красное и черное",
+    "author": "Стендаль",
+    "year": 1830,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 380,
+    "description": "Карьера и любовь Жюльена Сореля.",
+    "coverUrl": "covers/47.jpg"
+  },
+  {
+    "id": 48,
+    "titleRu": "Госпожа Бовари",
+    "author": "Гюстав Флобер",
+    "year": 1856,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 340,
+    "description": "Провинциальная жена врача ищет красивой жизни.",
+    "coverUrl": "covers/48.jpg"
+  },
+  {
+    "id": 49,
+    "titleRu": "Милый друг",
+    "author": "Ги де Мопассан",
+    "year": 1885,
+    "genres": [
+      "классика",
+      "драма"
+    ],
+    "price": 320,
+    "description": "Карьерист Жорж Дюруа покоряет Париж.",
+    "coverUrl": "covers/49.jpg"
+  },
+  {
+    "id": 50,
+    "titleRu": "Заводной апельсин",
+    "author": "Энтони Берджесс",
+    "year": 1962,
+    "genres": [
+      "классика",
+      "дистопия"
+    ],
+    "price": 300,
+    "description": "История подростка-садиста и его лечения.",
+    "coverUrl": "covers/50.jpg"
+  },
+  {
+    "id": 51,
+    "titleRu": "Гарри Поттер и Философский камень",
+    "author": "Джоан Роулинг",
+    "year": 1997,
+    "genres": [
+      "бестселлер",
+      "фэнтези"
+    ],
+    "price": 500,
+    "description": "Мальчик узнает, что он волшебник.",
+    "coverUrl": "covers/51.jpg"
+  },
+  {
+    "id": 52,
+    "titleRu": "Игра престолов",
+    "author": "Джордж Мартин",
+    "year": 1996,
+    "genres": [
+      "бестселлер",
+      "фэнтези"
+    ],
+    "price": 600,
+    "description": "Борьба за железный трон Вестероса.",
+    "coverUrl": "covers/52.jpg"
+  },
+  {
+    "id": 53,
+    "titleRu": "Код да Винчи",
+    "author": "Дэн Браун",
+    "year": 2003,
+    "genres": [
+      "бестселлер",
+      "детектив"
+    ],
+    "price": 450,
+    "description": "Расследование убийства в Лувре.",
+    "coverUrl": "covers/53.jpg"
+  },
+  {
+    "id": 54,
+    "titleRu": "Сумерки",
+    "author": "Стефани Майер",
+    "year": 2005,
+    "genres": [
+      "бестселлер",
+      "романтика"
+    ],
+    "price": 400,
+    "description": "Любовь девушки и вампира.",
+    "coverUrl": "covers/54.jpg"
+  },
+  {
+    "id": 55,
+    "titleRu": "Голодные игры",
+    "author": "Сьюзен Коллинз",
+    "year": 2008,
+    "genres": [
+      "бестселлер",
+      "антиутопия"
+    ],
+    "price": 420,
+    "description": "Смертельное шоу на выживание.",
+    "coverUrl": "covers/55.jpg"
+  },
+  {
+    "id": 56,
+    "titleRu": "Алхимик",
+    "author": "Пауло Коэльо",
+    "year": 1988,
+    "genres": [
+      "бестселлер",
+      "философия"
+    ],
+    "price": 350,
+    "description": "Путешествие пастуха за сокровищами.",
+    "coverUrl": "covers/56.jpg"
+  },
+  {
+    "id": 57,
+    "titleRu": "Девушка с татуировкой дракона",
+    "author": "Стиг Ларссон",
+    "year": 2005,
+    "genres": [
+      "бестселлер",
+      "детектив"
+    ],
+    "price": 480,
+    "description": "Журналист и хакерша расследуют исчезновение.",
+    "coverUrl": "covers/57.jpg"
+  },
+  {
+    "id": 58,
+    "titleRu": "Марсианин",
+    "author": "Энди Вейер",
+    "year": 2011,
+    "genres": [
+      "бестселлер",
+      "фантастика"
+    ],
+    "price": 460,
+    "description": "Астронавт выживает один на Марсе.",
+    "coverUrl": "covers/58.jpg"
+  },
+  {
+    "id": 59,
+    "titleRu": "Исчезнувшая",
+    "author": "Гиллиан Флинн",
+    "year": 2012,
+    "genres": [
+      "бестселлер",
+      "триллер"
+    ],
+    "price": 440,
+    "description": "Жена исчезает в годовщину свадьбы.",
+    "coverUrl": "covers/59.jpg"
+  },
+  {
+    "id": 60,
+    "titleRu": "Оно",
+    "author": "Стивен Кинг",
+    "year": 1986,
+    "genres": [
+      "бестселлер",
+      "ужасы"
+    ],
+    "price": 550,
+    "description": "Клоун убивает детей в городке Дерри.",
+    "coverUrl": "covers/60.jpg"
+  },
+  {
+    "id": 61,
+    "titleRu": "Сияние",
+    "author": "Стивен Кинг",
+    "year": 1977,
+    "genres": [
+      "бестселлер",
+      "ужасы"
+    ],
+    "price": 500,
+    "description": "Семья смотрителя в отеле с призраками.",
+    "coverUrl": "covers/61.jpg"
+  },
+  {
+    "id": 62,
+    "titleRu": "Зеленая миля",
+    "author": "Стивен Кинг",
+    "year": 1996,
+    "genres": [
+      "бестселлер",
+      "драма"
+    ],
+    "price": 480,
+    "description": "Чудеса в тюрьме для смертников.",
+    "coverUrl": "covers/62.jpg"
+  },
+  {
+    "id": 63,
+    "titleRu": "Бойцовский клуб",
+    "author": "Чак Паланик",
+    "year": 1996,
+    "genres": [
+      "бестселлер",
+      "триллер"
+    ],
+    "price": 400,
+    "description": "Офисный клерк создает подпольный клуб.",
+    "coverUrl": "covers/63.jpg"
+  },
+  {
+    "id": 64,
+    "titleRu": "Виноваты звезды",
+    "author": "Джон Грин",
+    "year": 2012,
+    "genres": [
+      "бестселлер",
+      "романтика"
+    ],
+    "price": 380,
+    "description": "Любовь двух подростков с раком.",
+    "coverUrl": "covers/64.jpg"
+  },
+  {
+    "id": 65,
+    "titleRu": "Бегущий в лабиринте",
+    "author": "Джеймс Дэшнер",
+    "year": 2009,
+    "genres": [
+      "бестселлер",
+      "антиутопия"
+    ],
+    "price": 400,
+    "description": "Подростки пытаются выбраться из лабиринта.",
+    "coverUrl": "covers/65.jpg"
+  },
+  {
+    "id": 66,
+    "titleRu": "Перси Джексон",
+    "author": "Рик Риордан",
+    "year": 2005,
+    "genres": [
+      "бестселлер",
+      "фэнтези"
+    ],
+    "price": 420,
+    "description": "Сын Посейдона в современном мире.",
+    "coverUrl": "covers/66.jpg"
+  },
+  {
+    "id": 67,
+    "titleRu": "Дивергент",
+    "author": "Вероника Рот",
+    "year": 2011,
+    "genres": [
+      "бестселлер",
+      "антиутопия"
+    ],
+    "price": 400,
+    "description": "Общество разделено на фракции.",
+    "coverUrl": "covers/67.jpg"
+  },
+  {
+    "id": 69,
+    "titleRu": "Ночной Дозор",
+    "author": "Сергей Лукьяненко",
+    "year": 1998,
+    "genres": [
+      "бестселлер",
+      "фэнтези"
+    ],
+    "price": 400,
+    "description": "Битва светлых и темных иных в Москве.",
+    "coverUrl": "covers/69.jpg"
+  },
+  {
+    "id": 70,
+    "titleRu": "Шантарам",
+    "author": "Грегори Дэвид Робертс",
+    "year": 2003,
+    "genres": [
+      "бестселлер",
+      "роман"
+    ],
+    "price": 600,
+    "description": "Приключения беглого преступника в Индии.",
+    "coverUrl": "covers/70.jpg"
+  },
+  {
+    "id": 72,
+    "titleRu": "Богатый папа, бедный папа",
+    "author": "Роберт Кийосаки",
+    "year": 1997,
+    "genres": [
+      "бестселлер",
+      "бизнес"
+    ],
+    "price": 400,
+    "description": "Секреты финансовой грамотности.",
+    "coverUrl": "covers/72.jpg"
+  },
+  {
+    "id": 73,
+    "titleRu": "7 навыков высокоэффективных людей",
+    "author": "Стивен Кови",
+    "year": 1989,
+    "genres": [
+      "бестселлер",
+      "саморазвитие"
+    ],
+    "price": 450,
+    "description": "Принципы личной эффективности.",
+    "coverUrl": "covers/73.jpg"
+  },
+  {
+    "id": 74,
+    "titleRu": "Тонкое искусство пофигизма",
+    "author": "Марк Мэнсон",
+    "year": 2016,
+    "genres": [
+      "бестселлер",
+      "психология"
+    ],
+    "price": 380,
+    "description": "Как перестать беспокоиться и начать жить.",
+    "coverUrl": "covers/74.jpg"
+  },
+  {
+    "id": 76,
+    "titleRu": "Атлант расправил плечи",
+    "author": "Айн Рэнд",
+    "year": 1957,
+    "genres": [
+      "бестселлер",
+      "философия"
+    ],
+    "price": 700,
+    "description": "Антиутопия о социализме и капитализме.",
+    "coverUrl": "covers/76.jpg"
+  },
+  {
+    "id": 77,
+    "titleRu": "Крестный отец",
+    "author": "Марио Пьюзо",
+    "year": 1969,
+    "genres": [
+      "бестселлер",
+      "криминал"
+    ],
+    "price": 450,
+    "description": "История мафиозного клана Корлеоне.",
+    "coverUrl": "covers/77.jpg"
+  },
+  {
+    "id": 78,
+    "titleRu": "Прислуга",
+    "author": "Кэтрин Стокетт",
+    "year": 2009,
+    "genres": [
+      "бестселлер",
+      "драма"
+    ],
+    "price": 380,
+    "description": "Жизнь темнокожих служанок на юге США.",
+    "coverUrl": "covers/78.jpg"
+  },
+  {
+    "id": 79,
+    "titleRu": "Дневник памяти",
+    "author": "Николас Спаркс",
+    "year": 1996,
+    "genres": [
+      "бестселлер",
+      "романтика"
+    ],
+    "price": 350,
+    "description": "Трогательная история любви длиною в жизнь.",
+    "coverUrl": "covers/79.jpg"
+  },
+  {
+    "id": 80,
+    "titleRu": "50 оттенков серого",
+    "author": "Э. Л. Джеймс",
+    "year": 2011,
+    "genres": [
+      "бестселлер",
+      "романтика"
+    ],
+    "price": 300,
+    "description": "Студентка и миллиардер.",
+    "coverUrl": "covers/80.jpg"
+  },
+  {
+    "id": 81,
+    "titleRu": "Жизнь Пи",
+    "author": "Янн Мартел",
+    "year": 2001,
+    "genres": [
+      "бестселлер",
+      "приключения"
+    ],
+    "price": 380,
+    "description": "Мальчик и тигр в одной лодке.",
+    "coverUrl": "covers/81.jpg"
+  },
+  {
+    "id": 82,
+    "titleRu": "Парфюмер",
+    "author": "Патрик Зюскинд",
+    "year": 1985,
+    "genres": [
+      "бестселлер",
+      "триллер"
+    ],
+    "price": 360,
+    "description": "Гениальный нюхач убивает ради аромата.",
+    "coverUrl": "covers/82.jpg"
+  },
+  {
+    "id": 83,
+    "titleRu": "Норвежский лес",
+    "author": "Харуки Мураками",
+    "year": 1987,
+    "genres": [
+      "бестселлер",
+      "драма"
+    ],
+    "price": 400,
+    "description": "История любви и потерь в Токио 60-х.",
+    "coverUrl": "covers/83.jpg"
+  },
+  {
+    "id": 84,
+    "titleRu": "11/22/63",
+    "author": "Стивен Кинг",
+    "year": 2011,
+    "genres": [
+      "бестселлер",
+      "фантастика"
+    ],
+    "price": 550,
+    "description": "Учитель путешествует в прошлое, чтобы спасти Кеннеди.",
+    "coverUrl": "covers/84.jpg"
+  },
+  {
+    "id": 85,
+    "titleRu": "Американские боги",
+    "author": "Нил Гейман",
+    "year": 2001,
+    "genres": [
+      "бестселлер",
+      "фэнтези"
+    ],
+    "price": 450,
+    "description": "Война старых и новых богов.",
+    "coverUrl": "covers/85.jpg"
+  },
+  {
+    "id": 86,
+    "titleRu": "Благие знамения",
+    "author": "Терри Пратчетт, Нил Гейман",
+    "year": 1990,
+    "genres": [
+      "бестселлер",
+      "фэнтези"
+    ],
+    "price": 420,
+    "description": "Ангел и демон пытаются предотвратить апокалипсис.",
+    "coverUrl": "covers/86.jpg"
+  },
+  {
+    "id": 87,
+    "titleRu": "Цветы для Элджернона",
+    "author": "Дэниел Киз",
+    "year": 1966,
+    "genres": [
+      "бестселлер",
+      "фантастика"
+    ],
+    "price": 360,
+    "description": "Умственно отсталый становится гением после операции.",
+    "coverUrl": "covers/87.jpg"
+  },
+  {
+    "id": 88,
+    "titleRu": "Мемуары гейши",
+    "author": "Артур Голден",
+    "year": 1997,
+    "genres": [
+      "бестселлер",
+      "роман"
+    ],
+    "price": 400,
+    "description": "Жизнь гейши в Киото до и после войны.",
+    "coverUrl": "covers/88.jpg"
+  },
+  {
+    "id": 89,
+    "titleRu": "Книжный вор",
+    "author": "Маркус Зусак",
+    "year": 2005,
+    "genres": [
+      "бестселлер",
+      "драма"
+    ],
+    "price": 380,
+    "description": "Девочка в нацистской Германии ворует книги.",
+    "coverUrl": "covers/89.jpg"
+  },
+  {
+    "id": 90,
+    "titleRu": "Большая маленькая ложь",
+    "author": "Лиана Мориарти",
+    "year": 2014,
+    "genres": [
+      "бестселлер",
+      "детектив"
+    ],
+    "price": 370,
+    "description": "Тайны трех матерей в маленьком городке.",
+    "coverUrl": "covers/90.jpg"
+  },
+  {
+    "id": 91,
+    "titleRu": "Поющие в терновнике",
+    "author": "Колин Маккалоу",
+    "year": 1977,
+    "genres": [
+      "бестселлер",
+      "романтика"
+    ],
+    "price": 450,
+    "description": "Запретная любовь священника и прихожанки.",
+    "coverUrl": "covers/91.jpg"
+  },
+  {
+    "id": 92,
+    "titleRu": "Ангелы и демоны",
+    "author": "Дэн Браун",
+    "year": 2000,
+    "genres": [
+      "бестселлер",
+      "детектив"
+    ],
+    "price": 440,
+    "description": "Профессор Лэнгдон против иллюминатов.",
+    "coverUrl": "covers/92.jpg"
+  },
+  {
+    "id": 93,
+    "titleRu": "Унесенные ветром",
+    "author": "Маргарет Митчелл",
+    "year": 1936,
+    "genres": [
+      "бестселлер",
+      "роман"
+    ],
+    "price": 500,
+    "description": "Скарлетт О'Хара во время Гражданской войны.",
+    "coverUrl": "covers/93.jpg"
+  },
+  {
+    "id": 94,
+    "titleRu": "До встречи с тобой",
+    "author": "Джоджо Мойес",
+    "year": 2012,
+    "genres": [
+      "бестселлер",
+      "романтика"
+    ],
+    "price": 340,
+    "description": "Сиделка влюбляется в парализованного парня.",
+    "coverUrl": "covers/94.jpg"
+  },
+  {
+    "id": 95,
+    "titleRu": "Тень ветра",
+    "author": "Карлос Руис Сафон",
+    "year": 2001,
+    "genres": [
+      "бестселлер",
+      "мистика"
+    ],
+    "price": 410,
+    "description": "Таинственная книга меняет жизнь мальчика.",
+    "coverUrl": "covers/95.jpg"
+  },
+  {
+    "id": 96,
+    "titleRu": "Приключения Шерлока Холмса",
+    "author": "Артур Конан Дойл",
+    "year": 1892,
+    "genres": [
+      "бестселлер",
+      "детектив"
+    ],
+    "price": 390,
+    "description": "Сборник рассказов о сыщике.",
+    "coverUrl": "covers/96.jpg"
+  },
+  {
+    "id": 97,
+    "titleRu": "Зов Ктулху",
+    "author": "Говард Лавкрафт",
+    "year": 1928,
+    "genres": [
+      "бестселлер",
+      "ужасы"
+    ],
+    "price": 300,
+    "description": "Древнее божество спит в океане.",
+    "coverUrl": "covers/97.jpg"
+  },
+  {
+    "id": 98,
+    "titleRu": "Автостопом по галактике",
+    "author": "Дуглас Адамс",
+    "year": 1979,
+    "genres": [
+      "бестселлер",
+      "фантастика"
+    ],
+    "price": 350,
+    "description": "Земля уничтожена, чтобы проложить шоссе.",
+    "coverUrl": "covers/98.jpg"
+  },
+  {
+    "id": 99,
+    "titleRu": "Дюна",
+    "author": "Фрэнк Герберт",
+    "year": 1965,
+    "genres": [
+      "бестселлер",
+      "фантастика"
+    ],
+    "price": 600,
+    "description": "Политика и религия на пустынной планете Арракис.",
+    "coverUrl": "covers/99.jpg"
+  },
+  {
+    "id": 100,
+    "titleRu": "Гроза",
+    "author": "Александр Островский",
+    "year": 1859,
+    "genres": [
+      "бестселлер",
+      "драма"
+    ],
+    "price": 250,
+    "description": "Трагедия Катерины в купеческой семье.",
+    "coverUrl": "covers/100.jpg"
+  },
+  {
+    "id": 101,
+    "titleRu": "Обломов",
+    "author": "Иван Гончаров",
+    "year": 1859,
+    "genres": [
+      "бестселлер",
+      "классика"
+    ],
+    "price": 300,
+    "description": "Лень и апатия помещика Обломова.",
+    "coverUrl": "covers/101.jpg"
+  },
+  {
+    "id": 102,
+    "titleRu": "Собачье сердце",
+    "author": "Михаил Булгаков",
+    "year": 1925,
+    "genres": [
+      "бестселлер",
+      "сатира"
+    ],
+    "price": 320,
+    "description": "Превращение собаки в человека.",
+    "coverUrl": "covers/102.jpg"
+  },
+  {
+    "id": 103,
+    "titleRu": "Белая гвардия",
+    "author": "Михаил Булгаков",
+    "year": 1925,
+    "genres": [
+      "бестселлер",
+      "исторический"
+    ],
+    "price": 360,
+    "description": "Судьба семьи Турбиных в гражданскую войну.",
+    "coverUrl": "covers/103.jpg"
+  },
+  {
+    "id": 104,
+    "titleRu": "Тихий Дон",
+    "author": "Михаил Шолохов",
+    "year": 1928,
+    "genres": [
+      "бестселлер",
+      "эпопея"
+    ],
+    "price": 600,
+    "description": "Жизнь донского казачества в годы революции.",
+    "coverUrl": "covers/104.jpg"
+  },
+  {
+    "id": 105,
+    "titleRu": "Доктор Живаго",
+    "author": "Борис Пастернак",
+    "year": 1957,
+    "genres": [
+      "бестселлер",
+      "драма"
+    ],
+    "price": 480,
+    "description": "Судьба интеллигенции в революции.",
+    "coverUrl": "covers/105.jpg"
+  },
+  {
+    "id": 107,
+    "titleRu": "В списках не значился",
+    "author": "Борис Васильев",
+    "year": 1974,
+    "genres": [
+      "бестселлер",
+      "военный"
+    ],
+    "price": 280,
+    "description": "Оборона Брестской крепости.",
+    "coverUrl": "covers/107.jpg"
+  },
+  {
+    "id": 108,
+    "titleRu": "А зори здесь тихие...",
+    "author": "Борис Васильев",
+    "year": 1969,
+    "genres": [
+      "бестселлер",
+      "военный"
+    ],
+    "price": 270,
+    "description": "Пять девушек-зенитчиц против диверсантов.",
+    "coverUrl": "covers/108.jpg"
+  },
+  {
+    "id": 109,
+    "titleRu": "Судьба человека",
+    "author": "Михаил Шолохов",
+    "year": 1956,
+    "genres": [
+      "бестселлер",
+      "военный"
+    ],
+    "price": 250,
+    "description": "Русский солдат проходит через плен и потери.",
+    "coverUrl": "covers/109.jpg"
+  },
+  {
+    "id": 110,
+    "titleRu": "Одиссея капитана Блада",
+    "author": "Рафаэль Сабатини",
+    "year": 1922,
+    "genres": [
+      "бестселлер",
+      "приключения"
+    ],
+    "price": 320,
+    "description": "Врач становится пиратом поневоле.",
+    "coverUrl": "covers/110.jpg"
+  },
+  {
+    "id": 111,
+    "titleRu": "Остров сокровищ",
+    "author": "Роберт Льюис Стивенсон",
+    "year": 1883,
+    "genres": [
+      "бестселлер",
+      "приключения"
+    ],
+    "price": 300,
+    "description": "Поиск пиратского клада.",
+    "coverUrl": "covers/111.jpg"
+  },
+  {
+    "id": 112,
+    "titleRu": "Робинзон Крузо",
+    "author": "Даниэль Дефо",
+    "year": 1719,
+    "genres": [
+      "бестселлер",
+      "приключения"
+    ],
+    "price": 290,
+    "description": "Выживание на необитаемом острове.",
+    "coverUrl": "covers/112.jpg"
+  },
+  {
+    "id": 113,
+    "titleRu": "Вокруг света за 80 дней",
+    "author": "Жюль Верн",
+    "year": 1873,
+    "genres": [
+      "бестселлер",
+      "приключения"
+    ],
+    "price": 310,
+    "description": "Пари Филеаса Фогга.",
+    "coverUrl": "covers/113.jpg"
+  },
+  {
+    "id": 114,
+    "titleRu": "Дети капитана Гранта",
+    "author": "Жюль Верн",
+    "year": 1868,
+    "genres": [
+      "бестселлер",
+      "приключения"
+    ],
+    "price": 350,
+    "description": "Путешествие вдоль 37-й параллели.",
+    "coverUrl": "covers/114.jpg"
+  },
+  {
+    "id": 115,
+    "titleRu": "Всадник без головы",
+    "author": "Майн Рид",
+    "year": 1865,
+    "genres": [
+      "бестселлер",
+      "вестерн"
+    ],
+    "price": 330,
+    "description": "Таинственное убийство в Техасе.",
+    "coverUrl": "covers/115.jpg"
+  },
+  {
+    "id": 116,
+    "titleRu": "Сердца трех",
+    "author": "Джек Лондон",
+    "year": 1920,
+    "genres": [
+      "бестселлер",
+      "приключения"
+    ],
+    "price": 340,
+    "description": "Поиск сокровищ майя.",
+    "coverUrl": "covers/116.jpg"
+  },
+  {
+    "id": 117,
+    "titleRu": "Мартин Иден",
+    "author": "Джек Лондон",
+    "year": 1909,
+    "genres": [
+      "бестселлер",
+      "драма"
+    ],
+    "price": 360,
+    "description": "Моряк становится писателем ради любви.",
+    "coverUrl": "covers/117.jpg"
+  },
+  {
+    "id": 118,
+    "titleRu": "Белый клык",
+    "author": "Джек Лондон",
+    "year": 1906,
+    "genres": [
+      "бестселлер",
+      "приключения"
+    ],
+    "price": 300,
+    "description": "Жизнь волка-собаки на Аляске.",
+    "coverUrl": "covers/118.jpg"
+  },
+  {
+    "id": 119,
+    "titleRu": "Человек-амфибия",
+    "author": "Александр Беляев",
+    "year": 1928,
+    "genres": [
+      "бестселлер",
+      "фантастика"
+    ],
+    "price": 280,
+    "description": "Юноша с жабрами акулы.",
+    "coverUrl": "covers/119.jpg"
+  },
+  {
+    "id": 120,
+    "titleRu": "Аэлита",
+    "author": "Алексей Толстой",
+    "year": 1923,
+    "genres": [
+      "бестселлер",
+      "фантастика"
+    ],
+    "price": 290,
+    "description": "Путешествие на Марс.",
+    "coverUrl": "covers/120.jpg"
+  },
+  {
+    "id": 121,
+    "titleRu": "Гиперболоид инженера Гарина",
+    "author": "Алексей Толстой",
+    "year": 1927,
+    "genres": [
+      "бестселлер",
+      "фантастика"
+    ],
+    "price": 320,
+    "description": "Изобретение смертельного луча.",
+    "coverUrl": "covers/121.jpg"
+  },
+  {
+    "id": 122,
+    "titleRu": "Понедельник начинается в субботу",
+    "author": "Братья Стругацкие",
+    "year": 1965,
+    "genres": [
+      "бестселлер",
+      "фантастика"
+    ],
+    "price": 350,
+    "description": "Программист попадает в НИИ Чародейства и Волшебства.",
+    "coverUrl": "covers/122.jpg"
+  },
+  {
+    "id": 123,
+    "titleRu": "Трудно быть богом",
+    "author": "Братья Стругацкие",
+    "year": 1964,
+    "genres": [
+      "бестселлер",
+      "фантастика"
+    ],
+    "price": 370,
+    "description": "Землянин на планете, застрявшей в средневековье.",
+    "coverUrl": "covers/123.jpg"
+  },
+  {
+    "id": 124,
+    "titleRu": "Пикник на обочине",
+    "author": "Братья Стругацкие",
+    "year": 1972,
+    "genres": [
+      "бестселлер",
+      "фантастика"
+    ],
+    "price": 380,
+    "description": "Сталкеры в Зоне Посещения.",
+    "coverUrl": "covers/124.jpg"
+  },
+  {
+    "id": 125,
+    "titleRu": "Москва-Петушки",
+    "author": "Венедикт Ерофеев",
+    "year": 1973,
+    "genres": [
+      "бестселлер",
+      "постмодернизм"
+    ],
+    "price": 300,
+    "description": "Пьяное путешествие на электричке.",
+    "coverUrl": "covers/125.jpg"
+  },
+  {
+    "id": 126,
+    "titleRu": "Generation П",
+    "author": "Виктор Пелевин",
+    "year": 1999,
+    "genres": [
+      "бестселлер",
+      "сатира"
+    ],
+    "price": 400,
+    "description": "Рекламщик Вавилен Татарский в 90-е.",
+    "coverUrl": "covers/126.jpg"
+  },
+  {
+    "id": 127,
+    "titleRu": "Чапаев и Пустота",
+    "author": "Виктор Пелевин",
+    "year": 1996,
+    "genres": [
+      "бестселлер",
+      "постмодернизм"
+    ],
+    "price": 420,
+    "description": "Поэт в психбольнице и в гражданской войне.",
+    "coverUrl": "covers/127.jpg"
+  },
+  {
+    "id": 128,
+    "titleRu": "Географ глобус пропил",
+    "author": "Алексей Иванов",
+    "year": 1995,
+    "genres": [
+      "бестселлер",
+      "драма"
+    ],
+    "price": 340,
+    "description": "Учитель географии и его поход с учениками.",
+    "coverUrl": "covers/128.jpg"
+  },
+  {
+    "id": 129,
+    "titleRu": "Зулейха открывает глаза",
+    "author": "Гузель Яхина",
+    "year": 2015,
+    "genres": [
+      "бестселлер",
+      "исторический"
+    ],
+    "price": 450,
+    "description": "Раскулачивание и ссылка в Сибирь.",
+    "coverUrl": "covers/129.jpg"
+  },
+  {
+    "id": 130,
+    "titleRu": "Лавр",
+    "author": "Евгений Водолазкин",
+    "year": 2012,
+    "genres": [
+      "бестселлер",
+      "исторический"
+    ],
+    "price": 480,
+    "description": "Средневековый врач-целитель.",
+    "coverUrl": "covers/130.jpg"
+  },
+  {
+    "id": 131,
+    "titleRu": "Вторая жизнь Уве",
+    "author": "Фредрик Бакман",
+    "year": 2012,
+    "genres": [
+      "бестселлер",
+      "драма"
+    ],
+    "price": 360,
+    "description": "Ворчливый старик и его новые соседи.",
+    "coverUrl": "covers/131.jpg"
+  },
+  {
+    "id": 132,
+    "titleRu": "Есть, молиться, любить",
+    "author": "Элизабет Гилберт",
+    "year": 2006,
+    "genres": [
+      "бестселлер",
+      "роман"
+    ],
+    "price": 340,
+    "description": "Поиск себя.",
+    "coverUrl": "covers/132.jpg"
+  },
+  {
+    "id": 133,
+    "titleRu": "Щегол",
+    "author": "Донна Тартт",
+    "year": 2013,
+    "genres": [
+      "бестселлер",
+      "драма"
+    ],
+    "price": 650,
+    "description": "Мальчик выживает после теракта в музее.",
+    "coverUrl": "covers/133.jpg"
+  },
+  {
+    "id": 134,
+    "titleRu": "Искра жизни",
+    "author": "Эрих Мария Ремарк",
+    "year": 1952,
+    "genres": [
+      "бестселлер",
+      "военный"
+    ],
+    "price": 350,
+    "description": "Жизнь в концлагере.",
+    "coverUrl": "covers/134.jpg"
+  },
+  {
+    "id": 135,
+    "titleRu": "Триумфальная арка",
+    "author": "Эрих Мария Ремарк",
+    "year": 1945,
+    "genres": [
+      "бестселлер",
+      "драма"
+    ],
+    "price": 360,
+    "description": "Эмигрант в Париже перед войной.",
+    "coverUrl": "covers/135.jpg"
+  },
+  {
+    "id": 136,
+    "titleRu": "Кладбище домашних животных",
+    "author": "Стивен Кинг",
+    "year": 1983,
+    "genres": [
+      "бестселлер",
+      "ужасы"
+    ],
+    "price": 400,
+    "description": "Мертвые возвращаются.",
+    "coverUrl": "covers/136.jpg"
+  },
+  {
+    "id": 137,
+    "titleRu": "Мизери",
+    "author": "Стивен Кинг",
+    "year": 1987,
+    "genres": [
+      "бестселлер",
+      "триллер"
+    ],
+    "price": 380,
+    "description": "Писатель в плену у безумной фанатки.",
+    "coverUrl": "covers/137.jpg"
+  },
+  {
+    "id": 138,
+    "titleRu": "Кэрри",
+    "author": "Стивен Кинг",
+    "year": 1974,
+    "genres": [
+      "бестселлер",
+      "ужасы"
+    ],
+    "price": 350,
+    "description": "Девочка с телекинезом мстит одноклассникам.",
+    "coverUrl": "covers/138.jpg"
+  },
+  {
+    "id": 139,
+    "titleRu": "Инферно",
+    "author": "Дэн Браун",
+    "year": 2013,
+    "genres": [
+      "бестселлер",
+      "детектив"
+    ],
+    "price": 430,
+    "description": "Лэнгдон и ад Данте.",
+    "coverUrl": "covers/139.jpg"
+  },
+  {
+    "id": 140,
+    "titleRu": "Хроники Нарнии",
+    "author": "К. С. Льюис",
+    "year": 1950,
+    "genres": [
+      "бестселлер",
+      "фэнтези"
+    ],
+    "price": 450,
+    "description": "Дети попадают в волшебную страну через шкаф.",
+    "coverUrl": "covers/140.jpg"
+  },
+  {
+    "id": 141,
+    "titleRu": "Золотой компас",
+    "author": "Филип Пулман",
+    "year": 1995,
+    "genres": [
+      "бестселлер",
+      "фэнтези"
+    ],
+    "price": 400,
+    "description": "Девочка Лира и её деймон.",
+    "coverUrl": "covers/141.jpg"
+  },
+  {
+    "id": 142,
+    "titleRu": "Дом странных детей",
+    "author": "Ренсом Риггз",
+    "year": 2011,
+    "genres": [
+      "бестселлер",
+      "фэнтези"
+    ],
+    "price": 370,
+    "description": "Приют для детей со сверхспособностями.",
+    "coverUrl": "covers/142.jpg"
+  },
+  {
+    "id": 143,
+    "titleRu": "Призрак оперы",
+    "author": "Гастон Леру",
+    "year": 1910,
+    "genres": [
+      "бестселлер",
+      "мистика"
+    ],
+    "price": 330,
+    "description": "Таинственный голос в парижской опере.",
+    "coverUrl": "covers/143.jpg"
+  },
+  {
+    "id": 144,
+    "titleRu": "Кредо убийцы",
+    "author": "Оливер Боуден",
+    "year": 2009,
+    "genres": [
+      "бестселлер",
+      "приключения"
+    ],
+    "price": 350,
+    "description": "Братство ассасинов против тамплиеров.",
+    "coverUrl": "covers/144.jpg"
+  },
+  {
+    "id": 145,
+    "titleRu": "Ведьмак: Последнее желание",
+    "author": "Анджей Сапковский",
+    "year": 1993,
+    "genres": [
+      "бестселлер",
+      "фэнтези"
+    ],
+    "price": 450,
+    "description": "Ведьмак Геральт из Ривии.",
+    "coverUrl": "covers/145.jpg"
+  },
+  {
+    "id": 146,
+    "titleRu": "Кровь эльфов",
+    "author": "Анджей Сапковский",
+    "year": 1994,
+    "genres": [
+      "бестселлер",
+      "фэнтези"
+    ],
+    "price": 450,
+    "description": "Начало саги о Цири.",
+    "coverUrl": "covers/146.jpg"
+  },
+  {
+    "id": 147,
+    "titleRu": "Гарри Поттер и Тайная комната",
+    "author": "Джоан Роулинг",
+    "year": 1998,
+    "genres": [
+      "бестселлер",
+      "фэнтези"
+    ],
+    "price": 500,
+    "description": "Второй год в Хогвартсе.",
+    "coverUrl": "covers/147.jpg"
+  },
+  {
+    "id": 148,
+    "titleRu": "Гарри Поттер и Узник Азкабана",
+    "author": "Джоан Роулинг",
+    "year": 1999,
+    "genres": [
+      "бестселлер",
+      "фэнтези"
+    ],
+    "price": 500,
+    "description": "Сириус Блэк сбежал.",
+    "coverUrl": "covers/148.jpg"
+  },
+  {
+    "id": 149,
+    "titleRu": "Гарри Поттер и Кубок огня",
+    "author": "Джоан Роулинг",
+    "year": 2000,
+    "genres": [
+      "бестселлер",
+      "фэнтези"
+    ],
+    "price": 550,
+    "description": "Турнир трех волшебников.",
+    "coverUrl": "covers/149.jpg"
+  },
+  {
+    "id": 150,
+    "titleRu": "Гарри Поттер и Орден Феникса",
+    "author": "Джоан Роулинг",
+    "year": 2003,
+    "genres": [
+      "бестселлер",
+      "фэнтези"
+    ],
+    "price": 600,
+    "description": "Возвращение Волан-де-Морта.",
+    "coverUrl": "covers/150.jpg"
+  },
+  {
+    "id": 151,
+    "titleRu": "Sapiens: Краткая история человечества",
+    "author": "Юваль Ной Харари",
+    "year": 2011,
+    "genres": [
+      "нонфикшн",
+      "история"
+    ],
+    "price": 550,
+    "description": "Как человек разумный покорил мир.",
+    "coverUrl": "covers/151.jpg"
+  },
+  {
+    "id": 152,
+    "titleRu": "Homo Deus",
+    "author": "Юваль Ной Харари",
+    "year": 2015,
+    "genres": [
+      "нонфикшн",
+      "футурология"
+    ],
+    "price": 550,
+    "description": "Краткая история будущего.",
+    "coverUrl": "covers/152.jpg"
+  },
+  {
+    "id": 153,
+    "titleRu": "Думай медленно... решай быстро",
+    "author": "Даниел Канеман",
+    "year": 2011,
+    "genres": [
+      "нонфикшн",
+      "психология"
+    ],
+    "price": 600,
+    "description": "Как работает наше мышление.",
+    "coverUrl": "covers/153.jpg"
+  },
+  {
+    "id": 154,
+    "titleRu": "Краткая история времени",
+    "author": "Стивен Хокинг",
+    "year": 1988,
+    "genres": [
+      "нонфикшн",
+      "наука"
+    ],
+    "price": 450,
+    "description": "О черных дырах и вселенной.",
+    "coverUrl": "covers/154.jpg"
+  },
+  {
+    "id": 157,
+    "titleRu": "Магия утра",
+    "author": "Хэл Элрод",
+    "year": 2012,
+    "genres": [
+      "нонфикшн",
+      "саморазвитие"
+    ],
+    "price": 350,
+    "description": "Как первый час дня определяет ваш успех.",
+    "coverUrl": "covers/157.jpg"
+  },
+  {
+    "id": 158,
+    "titleRu": "НИ СЫ",
+    "author": "Джен Синсеро",
+    "year": 2013,
+    "genres": [
+      "нонфикшн",
+      "саморазвитие"
+    ],
+    "price": 360,
+    "description": "Будь уверен в своих силах.",
+    "coverUrl": "covers/158.jpg"
+  },
+  {
+    "id": 159,
+    "titleRu": "Эссенциализм",
+    "author": "Грег МакКеон",
+    "year": 2014,
+    "genres": [
+      "нонфикшн",
+      "саморазвитие"
+    ],
+    "price": 400,
+    "description": "Путь к простоте.",
+    "coverUrl": "covers/159.jpg"
+  },
+  {
+    "id": 160,
+    "titleRu": "Атомные привычки",
+    "author": "Джеймс Клир",
+    "year": 2018,
+    "genres": [
+      "нонфикшн",
+      "саморазвитие"
+    ],
+    "price": 420,
+    "description": "Как маленькие шаги меняют жизнь.",
+    "coverUrl": "covers/160.jpg"
+  },
+  {
+    "id": 161,
+    "titleRu": "От нуля к единице",
+    "author": "Питер Тиль",
+    "year": 2014,
+    "genres": [
+      "нонфикшн",
+      "бизнес"
+    ],
+    "price": 450,
+    "description": "Как создать стартап, который изменит будущее.",
+    "coverUrl": "covers/161.jpg"
+  },
+  {
+    "id": 162,
+    "titleRu": "Черный лебедь",
+    "author": "Нассим Талеб",
+    "year": 2007,
+    "genres": [
+      "нонфикшн",
+      "философия"
+    ],
+    "price": 500,
+    "description": "Под знаком непредсказуемости.",
+    "coverUrl": "covers/162.jpg"
+  },
+  {
+    "id": 163,
+    "titleRu": "Антихрупкость",
+    "author": "Нассим Талеб",
+    "year": 2012,
+    "genres": [
+      "нонфикшн",
+      "философия"
+    ],
+    "price": 550,
+    "description": "Как извлечь выгоду из хаоса.",
+    "coverUrl": "covers/163.jpg"
+  },
+  {
+    "id": 164,
+    "titleRu": "Пиши, сокращай",
+    "author": "Максим Ильяхов",
+    "year": 2016,
+    "genres": [
+      "нонфикшн",
+      "копирайтинг"
+    ],
+    "price": 400,
+    "description": "Как создавать сильный текст.",
+    "coverUrl": "covers/164.jpg"
+  },
+  {
+    "id": 165,
+    "titleRu": "Карта культурных различий",
+    "author": "Эрин Мейер",
+    "year": 2014,
+    "genres": [
+      "нонфикшн",
+      "бизнес"
+    ],
+    "price": 380,
+    "description": "Как люди мыслят и работают в разных странах.",
+    "coverUrl": "covers/165.jpg"
+  },
+  {
+    "id": 166,
+    "titleRu": "Принципы",
+    "author": "Рэй Далио",
+    "year": 2017,
+    "genres": [
+      "нонфикшн",
+      "бизнес"
+    ],
+    "price": 600,
+    "description": "Жизнь и работа.",
+    "coverUrl": "covers/166.jpg"
+  },
+  {
+    "id": 167,
+    "titleRu": "Самый богатый человек в Вавилоне",
+    "author": "Джордж Клейсон",
+    "year": 1926,
+    "genres": [
+      "нонфикшн",
+      "финансы"
+    ],
+    "price": 300,
+    "description": "Древние секреты финансового успеха.",
+    "coverUrl": "covers/167.jpg"
+  },
+  {
+    "id": 168,
+    "titleRu": "Психология влияния",
+    "author": "Роберт Чалдини",
+    "year": 1984,
+    "genres": [
+      "нонфикшн",
+      "психология"
+    ],
+    "price": 420,
+    "description": "Убеждай и властвуй.",
+    "coverUrl": "covers/168.jpg"
+  },
+  {
+    "id": 169,
+    "titleRu": "Игры, в которые играют люди",
+    "author": "Эрик Берн",
+    "year": 1964,
+    "genres": [
+      "нонфикшн",
+      "психология"
+    ],
+    "price": 350,
+    "description": "Психология человеческих взаимоотношений.",
+    "coverUrl": "covers/169.jpg"
+  },
+  {
+    "id": 170,
+    "titleRu": "Люди, которые играют в игры",
+    "author": "Эрик Берн",
+    "year": 1972,
+    "genres": [
+      "нонфикшн",
+      "психология"
+    ],
+    "price": 350,
+    "description": "Психология человеческой судьбы.",
+    "coverUrl": "covers/170.jpg"
+  },
+  {
+    "id": 171,
+    "titleRu": "Эмоциональный интеллект",
+    "author": "Дэниел Гоулман",
+    "year": 1995,
+    "genres": [
+      "нонфикшн",
+      "психология"
+    ],
+    "price": 400,
+    "description": "Почему он может значить больше, чем IQ.",
+    "coverUrl": "covers/171.jpg"
+  },
+  {
+    "id": 172,
+    "titleRu": "Поток",
+    "author": "Михай Чиксентмихайи",
+    "year": 1990,
+    "genres": [
+      "нонфикшн",
+      "психология"
+    ],
+    "price": 450,
+    "description": "Психология оптимального переживания.",
+    "coverUrl": "covers/172.jpg"
+  },
+  {
+    "id": 173,
+    "titleRu": "Разумный инвестор",
+    "author": "Бенджамин Грэм",
+    "year": 1949,
+    "genres": [
+      "нонфикшн",
+      "финансы"
+    ],
+    "price": 500,
+    "description": "Полное руководство по стоимостному инвестированию.",
+    "coverUrl": "covers/173.jpg"
+  },
+  {
+    "id": 174,
+    "titleRu": "Капитал",
+    "author": "Карл Маркс",
+    "year": 1867,
+    "genres": [
+      "нонфикшн",
+      "экономика"
+    ],
+    "price": 700,
+    "description": "Критика политической экономии.",
+    "coverUrl": "covers/174.jpg"
+  },
+  {
+    "id": 175,
+    "titleRu": "Государь",
+    "author": "Никколо Макиавелли",
+    "year": 1532,
+    "genres": [
+      "нонфикшн",
+      "политика"
+    ],
+    "price": 300,
+    "description": "Трактат о политике.",
+    "coverUrl": "covers/175.jpg"
+  },
+  {
+    "id": 176,
+    "titleRu": "Искусство войны",
+    "author": "Сунь-цзы",
+    "year": 500,
+    "genres": [
+      "нонфикшн",
+      "философия"
+    ],
+    "price": 250,
+    "description": "Древнекитайский трактат о военной стратегии.",
+    "coverUrl": "covers/176.jpg"
+  },
+  {
+    "id": 177,
+    "titleRu": "Дао дэ цзин",
+    "author": "Лао-цзы",
+    "year": 400,
+    "genres": [
+      "нонфикшн",
+      "философия"
+    ],
+    "price": 250,
+    "description": "Книга пути и достоинства.",
+    "coverUrl": "covers/177.jpg"
+  },
+  {
+    "id": 178,
+    "titleRu": "Краткая история всего",
+    "author": "Кен Уилбер",
+    "year": 1996,
+    "genres": [
+      "нонфикшн",
+      "философия"
+    ],
+    "price": 450,
+    "description": "Интегральная философия.",
+    "coverUrl": "covers/178.jpg"
+  },
+  {
+    "id": 179,
+    "titleRu": "Мозг и душа",
+    "author": "Крис Фрит",
+    "year": 2007,
+    "genres": [
+      "нонфикшн",
+      "наука"
+    ],
+    "price": 380,
+    "description": "Как нервная деятельность формирует наш внутренний мир.",
+    "coverUrl": "covers/179.jpg"
+  },
+  {
+    "id": 180,
+    "titleRu": "Эгоистичный ген",
+    "author": "Ричард Докинз",
+    "year": 1976,
+    "genres": [
+      "нонфикшн",
+      "наука"
+    ],
+    "price": 400,
+    "description": "Эволюция как отбор генов.",
+    "coverUrl": "covers/180.jpg"
+  },
+  {
+    "id": 181,
+    "titleRu": "Слепой часовщик",
+    "author": "Ричард Докинз",
+    "year": 1986,
+    "genres": [
+      "нонфикшн",
+      "наука"
+    ],
+    "price": 400,
+    "description": "Как эволюция создает сложность без замысла.",
+    "coverUrl": "covers/181.jpg"
+  },
+  {
+    "id": 182,
+    "titleRu": "Бог как иллюзия",
+    "author": "Ричард Докинз",
+    "year": 2006,
+    "genres": [
+      "нонфикшн",
+      "философия"
+    ],
+    "price": 450,
+    "description": "Критика религии.",
+    "coverUrl": "covers/182.jpg"
+  },
+  {
+    "id": 183,
+    "titleRu": "Космос",
+    "author": "Карл Саган",
+    "year": 1980,
+    "genres": [
+      "нонфикшн",
+      "наука"
+    ],
+    "price": 500,
+    "description": "Эволюция Вселенной и жизни.",
+    "coverUrl": "covers/183.jpg"
+  },
+  {
+    "id": 184,
+    "titleRu": "Мир, полный демонов",
+    "author": "Карл Саган",
+    "year": 1995,
+    "genres": [
+      "нонфикшн",
+      "наука"
+    ],
+    "price": 450,
+    "description": "Наука как свеча во тьме.",
+    "coverUrl": "covers/184.jpg"
+  },
+  {
+    "id": 185,
+    "titleRu": "Фейнмановские лекции по физике",
+    "author": "Ричард Фейнман",
+    "year": 1963,
+    "genres": [
+      "нонфикшн",
+      "наука"
+    ],
+    "price": 1000,
+    "description": "Легендарный курс физики.",
+    "coverUrl": "covers/185.jpg"
+  },
+  {
+    "id": 186,
+    "titleRu": "Вы, конечно, шутите, мистер Фейнман!",
+    "author": "Ричард Фейнман",
+    "year": 1985,
+    "genres": [
+      "нонфикшн",
+      "биография"
+    ],
+    "price": 350,
+    "description": "Истории из жизни нобелевского лауреата.",
+    "coverUrl": "covers/186.jpg"
+  },
+  {
+    "id": 187,
+    "titleRu": "Красная таблетка",
+    "author": "Андрей Курпатов",
+    "year": 2018,
+    "genres": [
+      "нонфикшн",
+      "психология"
+    ],
+    "price": 400,
+    "description": "Посмотри правде в глаза.",
+    "coverUrl": "covers/187.jpg"
+  },
+  {
+    "id": 188,
+    "titleRu": "Как продать что угодно кому угодно",
+    "author": "Джо Джирард",
+    "year": 1977,
+    "genres": [
+      "нонфикшн",
+      "бизнес"
+    ],
+    "price": 300,
+    "description": "Секреты величайшего продавца。",
+    "coverUrl": "covers/188.jpg"
+  },
+  {
+    "id": 189,
+    "titleRu": "Маркетинг без бюджета",
+    "author": "Игорь Манн",
+    "year": 2008,
+    "genres": [
+      "нонфикшн",
+      "бизнес"
+    ],
+    "price": 350,
+    "description": "Как продвигать бизнес бесплатно.",
+    "coverUrl": "covers/189.jpg"
+  },
+  {
+    "id": 190,
+    "titleRu": "Клиенты на всю жизнь",
+    "author": "Карл Сьюэлл",
+    "year": 1990,
+    "genres": [
+      "нонфикшн",
+      "бизнес"
+    ],
+    "price": 380,
+    "description": "Как превратить покупателя в партнера.",
+    "coverUrl": "covers/190.jpg"
+  },
+  {
+    "id": 191,
+    "titleRu": "Стив Джобс",
+    "author": "Уолтер Айзексон",
+    "year": 2011,
+    "genres": [
+      "нонфикшн",
+      "биография"
+    ],
+    "price": 500,
+    "description": "Биография основателя Apple.",
+    "coverUrl": "covers/191.jpg"
+  },
+  {
+    "id": 192,
+    "titleRu": "Илон Маск",
+    "author": "Эшли Вэнс",
+    "year": 2015,
+    "genres": [
+      "нонфикшн",
+      "биография"
+    ],
+    "price": 450,
+    "description": "Tesla, SpaceX и дорога в будущее.",
+    "coverUrl": "covers/192.jpg"
+  },
+  {
+    "id": 193,
+    "titleRu": "Никогда не ешьте в одиночку",
+    "author": "Кейт Феррацци",
+    "year": 2005,
+    "genres": [
+      "нонфикшн",
+      "бизнес"
+    ],
+    "price": 350,
+    "description": "Секреты нетворкинга.",
+    "coverUrl": "covers/193.jpg"
+  },
+  {
+    "id": 194,
+    "titleRu": "Думай и богатей",
+    "author": "Наполеон Хилл",
+    "year": 1937,
+    "genres": [
+      "нонфикшн",
+      "саморазвитие"
+    ],
+    "price": 300,
+    "description": "13 шагов к богатству.",
+    "coverUrl": "covers/194.jpg"
+  },
+  {
+    "id": 195,
+    "titleRu": "Пес по имени Мани",
+    "author": "Бодо Шефер",
+    "year": 2000,
+    "genres": [
+      "нонфикшн",
+      "финансы"
+    ],
+    "price": 280,
+    "description": "Финансовая грамотность для детей.",
+    "coverUrl": "covers/195.jpg"
+  },
+  {
+    "id": 196,
+    "titleRu": "Путь художника",
+    "author": "Джулия Кэмерон",
+    "year": 1992,
+    "genres": [
+      "нонфикшн",
+      "креативность"
+    ],
+    "price": 400,
+    "description": "Как разбудить в себе творца.",
+    "coverUrl": "covers/196.jpg"
+  },
+  {
+    "id": 197,
+    "titleRu": "Откровения рекламного агента",
+    "author": "Дэвид Огилви",
+    "year": 1963,
+    "genres": [
+      "нонфикшн",
+      "бизнес"
+    ],
+    "price": 350,
+    "description": "Секреты рекламного бизнеса.",
+    "coverUrl": "covers/197.jpg"
+  },
+  {
+    "id": 198,
+    "titleRu": "45 татуировок менеджера",
+    "author": "Максим Батырев",
+    "year": 2013,
+    "genres": [
+      "нонфикшн",
+      "бизнес"
+    ],
+    "price": 400,
+    "description": "Правила российского руководителя.",
+    "coverUrl": "covers/198.jpg"
+  },
+  {
+    "id": 199,
+    "titleRu": "Deadline. Роман об управлении проектами",
+    "author": "Том Демарко",
+    "year": 1997,
+    "genres": [
+      "нонфикшн",
+      "бизнес"
+    ],
+    "price": 450,
+    "description": "Как управлять проектами и не сойти с ума.",
+    "coverUrl": "covers/199.jpg"
+  },
+  {
+    "id": 200,
+    "titleRu": "Джедайские техники",
+    "author": "Максим Дорофеев",
+    "year": 2017,
+    "genres": [
+      "нонфикшн",
+      "саморазвитие"
+    ],
+    "price": 380,
+    "description": "Как воспитать свою обезьяну.",
+    "coverUrl": "covers/200.jpg"
+  }
 ];
