@@ -58,8 +58,8 @@ body {
     background: #3e3226;
     display: grid;
     grid-template-rows: auto auto 1fr auto;
-    padding: 20px;
-    gap: 20px;
+    padding: 15px;
+    gap: 12px;
     overflow: hidden;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
     border: 10px solid #261a12;
@@ -71,8 +71,8 @@ body {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-    gap: 15px;
-    padding: 15px 25px;
+    gap: 12px;
+    padding: 10px 20px;
     background: var(--bg-card);
     border-radius: 4px;
     border: 1px solid #dcdcdc;
@@ -97,24 +97,24 @@ body {
 #customer-panel {
     display: flex;
     align-items: center;
-    gap: 25px;
-    padding: 10px 30px;
+    gap: 20px;
+    padding: 6px 25px;
     background: #fffbf0;
     border-radius: 4px;
     border: 1px solid #e0d0b0;
     box-shadow: var(--shadow-soft);
-    min-height: 60px;
+    min-height: 45px;
 }
 
 #customer-avatar {
-    font-size: 56px;
+    font-size: 42px;
     filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.2));
 }
 
 #customer-speech {
     flex: 1;
     background: #fff;
-    padding: 20px;
+    padding: 10px 15px;
     border-radius: 12px 12px 12px 0;
     position: relative;
     border: 1px solid #e0e0e0;
@@ -154,9 +154,9 @@ body {
 
 
 #customer-request {
-    font-size: 18px;
+    font-size: 16px;
     font-style: italic;
-    line-height: 1.5;
+    line-height: 1.4;
     color: var(--text-primary);
 }
 
@@ -500,21 +500,21 @@ body {
     justify-content: center;
     align-items: center;
     /* Vertical alignment */
-    gap: 20px;
-    padding: 5px;
-    min-height: 50px;
+    gap: 15px;
+    padding: 3px;
+    min-height: 40px;
     /* Reserve space */
 }
 
 .btn {
     font-family: var(--font-heading);
-    font-size: 16px;
+    font-size: 15px;
     /* Unified font size */
-    height: 50px;
+    height: 38px;
     /* Fixed height */
-    min-width: 180px;
+    min-width: 160px;
     /* Fixed min-width */
-    padding: 0 20px;
+    padding: 0 16px;
     /* Horizontal padding only */
     border: none;
     border-radius: 4px;
